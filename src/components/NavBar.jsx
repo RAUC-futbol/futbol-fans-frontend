@@ -1,35 +1,33 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link, useMatch, useResolvedPath } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function NavBar() {
     return (
         <Navbar expand='lg' className='navbar'>
-            <Link to='/' className='navbar-brand'>Statistics</Link>
-            <Navbar.Toggle aria-controls='basic-navbar-nav' />
-            <Navbar.Collapse id='basic-navbar-nav'>
-                <ul>
-                    <Nav className='mr-auto'>
-                        <CustomLink to='/' className='nav-link'>Matches</CustomLink>
-                        <CustomLink to='/' className='nav-link'>Standings</CustomLink>
-                        <CustomLink to='/' className='nav-link'>Learn More</CustomLink>
-                        <CustomLink to='/' className='nav-link'>Profile</CustomLink>
-                    </Nav>
-                </ul>
-            </Navbar.Collapse>
-        </Navbar>
-    )
-}
-
-function CustomLink({ to, children, ...props }) {
-    const resolved = useResolvedPath(to);
-    const isActive = useMatch({ path: resolved.pathname, end: true });
-
-    return (
-        <li className={isActive ? 'active' : ''}>
-            <Link to={to} {...props}>
-                {children}
+        <Link to='/' className='navbar-brand'>
+          Futbol Fans
+        </Link>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='mr-auto'>
+            <Link to='/' className='nav-link'>
+              Home
             </Link>
-        </li>
+            <Link to='/matches' className='nav-link'>
+              Matches
+            </Link>
+            <Link to='/standings' className='nav-link'>
+              Standings
+            </Link>
+            <Link to='/explore' className='nav-link'>
+              Explore
+            </Link>
+            <Link to='/profile' className='nav-link'>
+              Profile
+            </Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     )
 }
