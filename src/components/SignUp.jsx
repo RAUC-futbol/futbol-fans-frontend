@@ -1,10 +1,14 @@
 // react
 import { useState } from 'react';
+// dependencies
+import axios from 'axios';
 // bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+// server API
+const SERVER = import.meta.env.VITE_API_URL;
 
 function SignUp({ show, onHide }) {
 
@@ -20,7 +24,18 @@ function SignUp({ show, onHide }) {
   }
 
   async function addUser() {
-    console.log(username);
+    const url = `${SERVER}/users/`;
+    const user = {
+      username: username
+    }
+    
+    try {
+      
+      const response = await axios.post(url, user);
+
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   return (
