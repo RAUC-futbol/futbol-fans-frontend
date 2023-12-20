@@ -17,14 +17,15 @@ import Filters from './components/Filters';
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
-  const [standings, setStandings] = useState([]);
+  const [teamStandings, setTeamStandings] = useState([]);
+  const [leagueStandings, setLeagueStandings] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState('PL');
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
 
   useEffect(() => {
     // Call only fetchLeagueStandings when the component mounts
     fetchLeagueStandings();
-  }, []); // Empty dependency array, will run once when the component mounts
+  }, [selectedLeague]);
 
   useEffect(() => {
     fetchTeamStandings();
@@ -37,7 +38,7 @@ function App() {
     try {
       console.log('url: ', dbURL);
       const leagueResponse = await axios.get(dbURL);
-      setStandings(leagueResponse.data);
+      setTeamStandings(leagueResponse.data);
       console.log('Fetched standings: ', leagueResponse.data);
     } catch (error) {
       console.error(error);
@@ -50,12 +51,11 @@ function App() {
     try {
       console.log('fetchStandings url: ', dbURL);
       const response = await axios.get(dbURL);
-      setStandings(response.data);
+      setLeagueStandings(response.data);
       console.log('Fetched standings: ', response.data);
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
-
   }
 
   function handleLeagueChange(event) {
@@ -76,13 +76,17 @@ function App() {
           path='/standings'
           element={
             <>
-             <Filters
+              <Filters
                 selectedLeague={selectedLeague}
                 selectedTeam={selectedTeam}
                 handleLeagueChange={handleLeagueChange}
                 handleTeamChange={handleTeamChange}
               />
-              <Standings standings={standings} selectedLeague={selectedLeague}/>
+              <Standings
+                teamStandings={teamStandings}
+                leagueStandings={leagueStandings}
+                selectedLeague={selectedLeague}
+              />
             </>
           }
         />
