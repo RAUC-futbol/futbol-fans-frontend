@@ -13,9 +13,16 @@ const SERVER = import.meta.env.VITE_API_URL;
 function SignUp({ show, onHide }) {
 
   const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
 
   function handleChange(event) {
-    setUsername(event.target.value)
+    const formField = event.target.id;
+
+    if (formField === 'username') {
+      setUsername(event.target.value)
+    } else if (formField === 'name') {
+      setName(event.target.value)
+    }
   }
 
   function handleSubmit() {
@@ -26,11 +33,12 @@ function SignUp({ show, onHide }) {
   async function addUser() {
     const url = `${SERVER}/users/`;
     const user = {
-      username: username
+      username: username,
+      name: name
     }
-    
+
     try {
-      
+
       const response = await axios.post(url, user);
 
     } catch (error) {
@@ -47,7 +55,11 @@ function SignUp({ show, onHide }) {
         <Form>
           <InputGroup>
             <InputGroup.Text>Username</InputGroup.Text>
-            <Form.Control onChange={handleChange}></Form.Control>
+            <Form.Control id='username' onChange={handleChange}></Form.Control>
+          </InputGroup>
+          <InputGroup>
+            <InputGroup.Text>Name</InputGroup.Text>
+            <Form.Control id='name' onChange={handleChange}></Form.Control>
           </InputGroup>
         </Form>
       </Modal.Body>
