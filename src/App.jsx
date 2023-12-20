@@ -64,8 +64,8 @@ function App() {
 
       <NavBar toggleShowSignUp={toggleShowSignUp} toggleShowLogin={toggleShowLogin} />
 
-      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
       <Login show={showLogin} onHide={toggleShowLogin} />
+      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
 
       <Routes>
         <Route path='/' element={<Home />} />
