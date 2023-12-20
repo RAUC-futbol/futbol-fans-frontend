@@ -8,8 +8,19 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 function Login({ show, onHide }) {
 
+  const [username, setUsername] = useState('');
+
+  function handleChange(event) {
+    setUsername(event.target.value)
+  }
+
   function handleSubmit() {
+    setUser();
     onHide();
+  }
+
+  async function setUser() {
+    console.log(username);
   }
 
   return (
@@ -19,7 +30,10 @@ function Login({ show, onHide }) {
       </Modal.Header>
       <Modal.Body>
         <Form>
-
+          <InputGroup>
+            <InputGroup.Text>Username</InputGroup.Text>
+            <Form.Control onChange={handleChange}></Form.Control>
+          </InputGroup>
         </Form>
       </Modal.Body>
       <Modal.Footer>
