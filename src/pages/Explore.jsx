@@ -16,7 +16,7 @@ export default function Explore() {
 
     async function getTeam() {
 
-        const apiKey = import.meta.process.FB_API_KEY; 
+        const apiKey = process.env.FB_API_KEY; 
 
         const headers = {
             'X-Auth-Token': apiKey,
@@ -41,7 +41,7 @@ export default function Explore() {
         <div>
             <input onChange={updateQuery} />
             <button onClick={getTeam}>Explore Teams!</button>
-            <h1>Learn More</h1>
+            <h1>More</h1>
             <h1>{teams}</h1>
         </div>
     );
