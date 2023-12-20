@@ -12,8 +12,10 @@ import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Filters from './components/Filters';
+
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+// import leaguesDictionary from '../config/leagues';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
@@ -27,24 +29,44 @@ function App() {
   }
 
   // standings API
-  const [standings, setStandings] = useState([]);
+  const [teamStandings, setTeamStandings] = useState([]);
+  const [leagueStandings, setLeagueStandings] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState('PL');
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
 
   useEffect(() => {
-    fetchStandings();
+    // Call only fetchLeagueStandings when the component mounts
+    fetchLeagueStandings();
+  }, [selectedLeague]);
+
+  useEffect(() => {
+    fetchTeamStandings();
+    fetchLeagueStandings();
   }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
 
-  async function fetchStandings() {
+  async function fetchTeamStandings() {
     let dbURL = `${SERVER}/standings/team/${selectedLeague}/${selectedTeam}`;
 
     try {
       console.log('url: ', dbURL);
       const leagueResponse = await axios.get(dbURL);
-      setStandings(leagueResponse.data);
+      setTeamStandings(leagueResponse.data);
       console.log('Fetched standings: ', leagueResponse.data);
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async function fetchLeagueStandings() {
+    let dbURL = `${SERVER}/standings/${selectedLeague}`;
+
+    try {
+      console.log('fetchStandings url: ', dbURL);
+      const response = await axios.get(dbURL);
+      setLeagueStandings(response.data);
+      console.log('Fetched standings: ', response.data);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -89,7 +111,11 @@ function App() {
                 handleLeagueChange={handleLeagueChange}
                 handleTeamChange={handleTeamChange}
               />
-              <Standings standings={standings} />
+              <Standings
+                teamStandings={teamStandings}
+                leagueStandings={leagueStandings}
+                selectedLeague={selectedLeague}
+              />
             </>
           }
         />
