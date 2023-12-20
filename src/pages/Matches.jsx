@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 function Matches() {
 
@@ -58,7 +59,7 @@ function Matches() {
   return (
     <Stack>
 
-      <MatchesForm />
+      <MatchesForm getMatches={getMatches}/>
 
       <Table size='sm'>
         <thead>
@@ -72,13 +73,16 @@ function Matches() {
             <th>Score</th>
           </tr>
         </thead>
+        <tbody>
+          
+        </tbody>
       </Table>
 
     </Stack>
   )
 }
 
-function MatchesForm() {
+function MatchesForm({ getMatches }) {
 
   const [status, setStatus] = useState();
   const [season, setSeason] = useState();
@@ -120,6 +124,9 @@ function MatchesForm() {
             <Form.Control type='date'></Form.Control>
             <InputGroup.Checkbox></InputGroup.Checkbox>
           </InputGroup>
+        </Col>
+        <Col>
+        <Button size='sm' onClick={getMatches}>Get Matches</Button>
         </Col>
       </Row>
     </Form>
