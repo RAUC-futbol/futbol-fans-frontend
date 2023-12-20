@@ -1,8 +1,9 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
-export default function NavBar() {
+export default function NavBar({ toggleShowSignUp, toggleShowLogin }) {
     return (
         <Navbar expand='lg' className='navbar'>
         <Link to='/' className='navbar-brand'>
@@ -26,6 +27,8 @@ export default function NavBar() {
             <Link to='/profile' className='nav-link'>
               Profile
             </Link>
+            <Button onClick={toggleShowLogin}>Login</Button>
+            <Button onClick={toggleShowSignUp}>Sign Up</Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

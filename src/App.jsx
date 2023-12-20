@@ -12,6 +12,8 @@ import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Filters from './components/Filters';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
@@ -45,9 +47,26 @@ function App() {
     setSelectedTeam(event.target.value);
   }
 
+  // sign up and login modals show handlers
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  function toggleShowSignUp() {
+    setShowSignUp(showSignUp ? false : true)
+  }
+
+  function toggleShowLogin() {
+    setShowLogin(showLogin ? false : true)
+  }
+
   return (
     <BrowserRouter className='App'>
-      <NavBar />
+
+      <NavBar toggleShowSignUp={toggleShowSignUp} toggleShowLogin={toggleShowLogin} />
+
+      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
+      <Login show={showLogin} onHide={toggleShowLogin} />
+
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/matches' element={<Matches />} />
@@ -55,7 +74,7 @@ function App() {
           path='/standings'
           element={
             <>
-             <Filters
+              <Filters
                 selectedLeague={selectedLeague}
                 selectedTeam={selectedTeam}
                 handleLeagueChange={handleLeagueChange}
@@ -69,6 +88,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/dashboard' element={<Dashboard />} />
       </Routes>
+
     </BrowserRouter>
   );
 }
