@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-function Login({ show, onHide }) {
+function Login({ show, onHide, updateUser }) {
 
   const [username, setUsername] = useState('');
 
@@ -20,7 +20,7 @@ function Login({ show, onHide }) {
   }
 
   async function setUser() {
-    console.log(username);
+    updateUser({ username: username });
   }
 
   return (

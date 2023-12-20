@@ -18,6 +18,15 @@ import Login from './components/Login';
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
+
+  // user
+  const [user, setUser] = useState({});
+
+  function updateUser(userObj) {
+    setUser(userObj);
+  }
+
+  // standings API
   const [standings, setStandings] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState('PL');
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
@@ -62,9 +71,9 @@ function App() {
   return (
     <BrowserRouter className='App'>
 
-      <NavBar toggleShowSignUp={toggleShowSignUp} toggleShowLogin={toggleShowLogin} />
+      <NavBar toggleShowSignUp={toggleShowSignUp} toggleShowLogin={toggleShowLogin} user={user} />
 
-      <Login show={showLogin} onHide={toggleShowLogin} />
+      <Login show={showLogin} onHide={toggleShowLogin} updateUser={updateUser} />
       <SignUp show={showSignUp} onHide={toggleShowSignUp} />
 
       <Routes>
