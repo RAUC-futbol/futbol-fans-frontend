@@ -4,11 +4,9 @@ import axios from 'axios';
 
 
 
-
-
 export default function Explore() {
     const [teams, setTeams] = useState("")
-    const [teamID, setTeamID] = useState('');
+    const [teamID, setTeamId] = useState('');
 
 
     //const API_KEY = process.env.FB_API_KEY
@@ -32,7 +30,7 @@ export default function Explore() {
 
     // Query function
     function updateQuery(event) {
-        setTeamID(event.target.value);
+        setTeamId(event.target.value);
 
     }
 
@@ -41,7 +39,7 @@ export default function Explore() {
         <div>
             <input onChange={updateQuery} />
             <button onClick={getTeam}>Explore Teams!</button>
-            <h1>More</h1>
+            <h1></h1>
             <h1>{teams}</h1>
         </div>
     );
