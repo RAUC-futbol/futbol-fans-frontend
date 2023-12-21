@@ -16,7 +16,8 @@ function Profile({ user, updateUser }) {
 
   const [username, setUsername] = useState(user.username);
   const [name, setName] = useState(user.name);
-  const [colorTheme, setColorTheme] = useState(user.colorTheme);
+  const [favLeague, setFavLeague] = useState(user.favLeague);
+  const [favTeam, setFavTeam] = useState(user.favTeam);
 
   function handleChange(event) {
     const formField = event.target.id;
@@ -25,8 +26,10 @@ function Profile({ user, updateUser }) {
       setUsername(event.target.value);
     } else if (formField === 'name') {
       setName(event.target.value);
-    } else if (formField === 'colorTheme') {
-      setColorTheme(event.target.value);
+    } else if (formField === 'favLeague') {
+      setFavLeague(event.target.value);
+    } else if (formField === 'favTeam') {
+      setFavTeam(event.target.value);
     }
   }
 
@@ -35,7 +38,8 @@ function Profile({ user, updateUser }) {
     const userProfile = {
       username: username,
       name: name,
-      colorTheme: colorTheme
+      favLeague: favLeague,
+      favTeam: favTeam
     }
 
     try {
@@ -66,14 +70,16 @@ function Profile({ user, updateUser }) {
         </InputGroup>
         <InputGroup>
           <InputGroup.Text>Favorite League</InputGroup.Text>
-          <Form.Select>
-
+          <Form.Select id='favLeague' onChange={handleChange} value={favLeague}>
+            <option value='2021'>Premier League</option>
+            <option value='2018'>European Championship</option>
           </Form.Select>
         </InputGroup>
         <InputGroup>
           <InputGroup.Text>Favorite Team</InputGroup.Text>
-          <Form.Select>
-
+          <Form.Select id='favTeam' onChange={handleChange} value={favTeam}>
+            <option value='61'>Chelsea FC</option>
+            <option value='57'>Arsenal FC</option>
           </Form.Select>
         </InputGroup>
         <Button onClick={updateUserProfile}>Update</Button>
