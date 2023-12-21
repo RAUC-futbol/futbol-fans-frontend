@@ -99,6 +99,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
         <Route path='/matches' element={<Matches />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
         <Route
           path='/standings'
           element={
