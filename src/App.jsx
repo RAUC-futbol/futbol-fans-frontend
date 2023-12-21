@@ -134,8 +134,10 @@ function App() {
       <SignUp show={showSignUp} onHide={toggleShowSignUp} />
 
       <Routes>
+
+        <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
         <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
-        <Route path='/matches' element={<Matches />} />
+
         <Route
           path='/standings'
           element={
