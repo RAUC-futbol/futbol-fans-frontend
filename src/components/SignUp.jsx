@@ -80,12 +80,8 @@ function SignUp({ show, onHide, updateUser }) {
             </FloatingLabel>
             <Button type='submit' variant='success'>Sign Up</Button>
           </Stack>
-
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-
-      </Modal.Footer>
     </Modal>
   )
 }
