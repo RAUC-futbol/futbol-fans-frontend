@@ -11,11 +11,11 @@ import Standings from './pages/Standings';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
-import Filters from './components/Filters';
+// import Filters from './components/Filters';
 import leaguesDictionary from '../config/leagues';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
-// import teamDictionary from '../config/teamDictionary';
+import teamDictionary from '../config/teamDictionary';
 import Highlights from './pages/Highlights';
 
 const SERVER = import.meta.env.VITE_API_URL;
@@ -34,41 +34,81 @@ function App() {
   }
 
   // standings API
+ 
+
+  // const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
+  const [teamInfo, setTeamInfo] = useState([]);
   const [teamStandings, setTeamStandings] = useState([]);
   const [leagueStandings, setLeagueStandings] = useState([]);
-  const [selectedLeague, setSelectedLeague] = useState(
-    leaguesDictionary[0].PL.leagueCode
-  );
-  const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
-  const [teamInfo, setTeamInfo] = useState([]);
+
+  useEffect(() => {
+    fetchLeagueStandings();
+    fetchTeamStandings();
+  }, [user.favLeague, user.favTeam]);
 
   useEffect(() => {
     fetchTeamInfo();
   }, [user.favTeam]);
-  // async function fetchTeamInfo() {
-  //   try {
-  //     const selectedTeamObject = teamDictionary.find(
-  //       (team) => team.name === selectedTeam
-  //     );
 
-  //     if (!selectedTeamObject) {
-  //       console.error(`Team not found in teamDictionary: ${selectedTeam}`);
-  //       return;
-  //     }
+  async function fetchTeamStandings() {
+    const selectedLeagueCode = getLeagueCode(user.favLeague);
+    const selectedTeamName = getTeamName(user.favTeam);
+    // console.log({ selectedLeagueCode });
+    // console.log({ selectedTeamName });
+    const dbURL = `${SERVER}/standings/team/${selectedLeagueCode}/${selectedTeamName}`;
+    if (!selectedTeamName) {
+      console.error(
+        `Team name not found in teamDictionary with ID: ${user.favTeam}`
+      );
+      return;
+    }
 
-  //     // Extract the teamId from the selected team object
-  //     const teamId = selectedTeamObject.id;
-  //     let dbURL = `${SERVER}/teams/${teamId}`;
+    try {
+      // console.log('Team Standings url: ', dbURL);
+      const leagueResponse = await axios.get(dbURL);
+      setTeamStandings(leagueResponse.data);
+      console.log('Fetched team standings: ', leagueResponse.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
-  //     console.log('fetchTeams url: ', dbURL);
-  //     const response = await axios.get(dbURL);
-  //     console.log('Fetched team info: ', response.data);
-  //     setTeamInfo(response.data);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // }
+  async function fetchLeagueStandings() {
+    const selectedLeagueCode = getLeagueCode(user.favLeague);
+    // console.log('Selected League Code:', selectedLeagueCode);
 
+    if (!selectedLeagueCode) {
+      return;
+    }
+
+    const dbURL = `${SERVER}/standings/${selectedLeagueCode}`;
+
+    try {
+      // console.log('fetchStandings url: ', dbURL);
+      const response = await axios.get(dbURL);
+      setLeagueStandings(response.data);
+      console.log('Fetched league standings: ', response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  function getLeagueCode(compId) {
+    // Use flatMap to flatten the array of league objects
+    const flattenedLeagues = leaguesDictionary.flatMap(Object.values);
+
+    const leagueEntry = flattenedLeagues.find(
+      (data) => data.compId === parseInt(compId, 10)
+    );
+
+    return leagueEntry ? leagueEntry.leagueCode : null;
+  }
+
+  function getTeamName(teamId) {
+    const teamEntry = teamDictionary.find((team) => team.id === teamId);
+    return teamEntry ? teamEntry.name : null;
+  }
+  
   async function fetchTeamInfo() {
     try {
       const teamId = user.favTeam;
@@ -83,13 +123,13 @@ function App() {
     }
   }
 
-  function handleLeagueChange(event) {
-    setSelectedLeague(event.target.value);
-  }
+  // function handleLeagueChange(event) {
+  //   setSelectedLeague(event.target.value);
+  // }
 
-  function handleTeamChange(event) {
-    setSelectedTeam(event.target.value);
-  }
+  // function handleTeamChange(event) {
+  //   setSelectedTeam(event.target.value);
+  // }
 
   // sign up and login modals show handlers
   const [showSignUp, setShowSignUp] = useState(false);
@@ -129,13 +169,10 @@ function App() {
           path='/standings'
           element={
             <>
-              <Filters
-                selectedLeague={selectedLeague}
-                selectedTeam={selectedTeam}
-                handleLeagueChange={handleLeagueChange}
-                handleTeamChange={handleTeamChange}
+              <Standings user={user}
+              teamStandings={teamStandings}
+              leagueStandings={leagueStandings}
               />
-              <Standings user={user} />
             </>
           }
         />
@@ -149,9 +186,9 @@ function App() {
           element={
             <Dashboard
               teamInfo={teamInfo}
+              selectedLeague={getLeagueCode(user.favLeague)}
               teamStandings={teamStandings}
               leagueStandings={leagueStandings}
-              selectedLeague={selectedLeague}
             />
           }
         />
