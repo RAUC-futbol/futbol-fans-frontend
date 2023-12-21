@@ -12,28 +12,79 @@ import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Filters from './components/Filters';
+import leaguesDictionary from '../config/leagues';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
-  const [standings, setStandings] = useState([]);
-  const [selectedLeague, setSelectedLeague] = useState('PL');
+
+  // user
+  const [user, setUser] = useState({});
+
+  function updateUser(userObj) {
+    setUser(userObj);
+  }
+
+  // standings API
+  const [teamStandings, setTeamStandings] = useState([]);
+  const [leagueStandings, setLeagueStandings] = useState([]);
+  const [selectedLeague, setSelectedLeague] = useState(
+    leaguesDictionary[0].PL.leagueCode
+  );
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
+  const [teamInfo, setTeamInfo] = useState([]);
 
   useEffect(() => {
-    fetchStandings();
+    // Call only fetchLeagueStandings when the component mounts
+    fetchLeagueStandings();
+  }, [selectedLeague]);
+
+  useEffect(() => {
+    fetchTeamStandings();
+    fetchLeagueStandings();
+    fetchTeamInfo();
   }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
 
-  async function fetchStandings() {
+  async function fetchTeamStandings() {
     let dbURL = `${SERVER}/standings/team/${selectedLeague}/${selectedTeam}`;
 
     try {
       //console.log('url: ', dbURL);
       const leagueResponse = await axios.get(dbURL);
-      setStandings(leagueResponse.data);
-      //console.log('Fetched standings: ', leagueResponse.data);
+      setTeamStandings(leagueResponse.data);
+      console.log('Fetched standings: ', leagueResponse.data);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
+    }
+  }
+
+  async function fetchLeagueStandings() {
+    let dbURL = `${SERVER}/standings/${selectedLeague}`;
+
+    try {
+      console.log('fetchStandings url: ', dbURL);
+      const response = await axios.get(dbURL);
+      setLeagueStandings(response.data);
+      console.log('Fetched standings: ', response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async function fetchTeamInfo() {
+    let teamId = 90;
+    let dbURL = `${SERVER}/teams/${teamId}`;
+
+    try {
+      console.log('fetchTeams url: ', dbURL);
+      const response = await axios.get(dbURL);
+      // setSelectedTeam(response.data.name);
+      console.log('Fetched team info: ', response.data);
+      setTeamInfo(response.data);
+    } catch (error) {
+      console.log(error.message);
     }
   }
 
@@ -45,9 +96,26 @@ function App() {
     setSelectedTeam(event.target.value);
   }
 
+  // sign up and login modals show handlers
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  function toggleShowSignUp() {
+    setShowSignUp(showSignUp ? false : true)
+  }
+
+  function toggleShowLogin() {
+    setShowLogin(showLogin ? false : true)
+  }
+
   return (
     <BrowserRouter className='App'>
-      <NavBar />
+
+      <NavBar toggleShowSignUp={toggleShowSignUp} toggleShowLogin={toggleShowLogin} user={user} />
+
+      <Login show={showLogin} onHide={toggleShowLogin} updateUser={updateUser} />
+      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
+
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/matches' element={<Matches />} />
@@ -55,20 +123,35 @@ function App() {
           path='/standings'
           element={
             <>
-             <Filters
+              <Filters
                 selectedLeague={selectedLeague}
                 selectedTeam={selectedTeam}
                 handleLeagueChange={handleLeagueChange}
                 handleTeamChange={handleTeamChange}
               />
-              <Standings standings={standings} />
+              <Standings
+                teamStandings={teamStandings}
+                leagueStandings={leagueStandings}
+                selectedLeague={selectedLeague}
+              />
             </>
           }
         />
         <Route path='/explore' element={<Explore />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route
+          path='/dashboard'
+          element={
+            <Dashboard
+              teamInfo={teamInfo}
+              teamStandings={teamStandings}
+              leagueStandings={leagueStandings}
+              selectedLeague={selectedLeague}
+            />
+          }
+        />
       </Routes>
+
     </BrowserRouter>
   );
 }
