@@ -11,7 +11,7 @@ export default function TeamStats({ teamInfo }) {
   const teamStats = teamInfo[0];
   return (
     <Container>
-      {/* <p>{JSON.stringify()}</p> */}
+      {/* <p>{JSON.stringify(teamStats)}</p> */}
       <Card style={{ width: '15rem' }}>
         <Card.Img
           variant='top'
@@ -23,6 +23,8 @@ export default function TeamStats({ teamInfo }) {
           <Card.Text>
             Founded: {teamStats.founded} <br />
             Address: {teamStats.address} <br />
+            Coach: {teamStats.coach.name} <br />
+      
           </Card.Text>
         </Card.Body>
       </Card>

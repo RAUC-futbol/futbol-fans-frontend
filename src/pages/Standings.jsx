@@ -1,14 +1,10 @@
-// import axios from 'axios';
-// import { useEffect, useState } from 'react';
 import TeamCard from '../components/TeamCard';
 import LeagueStandings from '../components/LeagueStandings';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import leaguesDictionary from '../../config/leagues';
-// import teamDictionary from '../../config/teamDictionary';
 
-const SERVER = import.meta.env.VITE_API_URL;
 
 export default function Standings({ user, teamStandings, leagueStandings }) {
 

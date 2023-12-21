@@ -11,7 +11,6 @@ import Standings from './pages/Standings';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
-// import Filters from './components/Filters';
 import leaguesDictionary from '../config/leagues';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
@@ -33,10 +32,6 @@ function App() {
     setUser(userObj);
   }
 
-  // standings API
- 
-
-  // const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
   const [teamInfo, setTeamInfo] = useState([]);
   const [teamStandings, setTeamStandings] = useState([]);
   const [leagueStandings, setLeagueStandings] = useState([]);
@@ -108,7 +103,7 @@ function App() {
     const teamEntry = teamDictionary.find((team) => team.id === teamId);
     return teamEntry ? teamEntry.name : null;
   }
-  
+
   async function fetchTeamInfo() {
     try {
       const teamId = user.favTeam;
@@ -122,14 +117,6 @@ function App() {
       console.log(error.message);
     }
   }
-
-  // function handleLeagueChange(event) {
-  //   setSelectedLeague(event.target.value);
-  // }
-
-  // function handleTeamChange(event) {
-  //   setSelectedTeam(event.target.value);
-  // }
 
   // sign up and login modals show handlers
   const [showSignUp, setShowSignUp] = useState(false);
@@ -169,14 +156,18 @@ function App() {
           path='/standings'
           element={
             <>
-              <Standings user={user}
-              teamStandings={teamStandings}
-              leagueStandings={leagueStandings}
+              <Standings
+                user={user}
+                teamStandings={teamStandings}
+                leagueStandings={leagueStandings}
               />
             </>
           }
         />
-        <Route path='/explore' element={<Explore />} />
+        <Route
+          path='/explore'
+          element={<Explore getTeamName={getTeamName} />}
+        />
         <Route
           path='/profile'
           element={<Profile user={user} updateUser={updateUser} />}
