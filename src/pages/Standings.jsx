@@ -19,11 +19,6 @@ export default function Standings({ user, teamStandings, leagueStandings }) {
     return leagueEntry ? leagueEntry.leagueCode : null;
   }
 
-  // function getTeamName(teamId) {
-  //   const teamEntry = teamDictionary.find((team) => team.id === teamId);
-  //   return teamEntry ? teamEntry.name : null;
-  // }
-
 
   return (
     <Container>

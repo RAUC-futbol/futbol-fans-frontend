@@ -48,8 +48,6 @@ function App() {
   async function fetchTeamStandings() {
     const selectedLeagueCode = getLeagueCode(user.favLeague);
     const selectedTeamName = getTeamName(user.favTeam);
-    // console.log({ selectedLeagueCode });
-    // console.log({ selectedTeamName });
     const dbURL = `${SERVER}/standings/team/${selectedLeagueCode}/${selectedTeamName}`;
     if (!selectedTeamName) {
       console.error(
@@ -166,10 +164,7 @@ function App() {
             </>
           }
         />
-        <Route
-          path='/explore'
-          element={<Explore getTeamName={getTeamName} />}
-        />
+        <Route path='/explore' element={<Explore />} />
         <Route
           path='/profile'
           element={<Profile user={user} updateUser={updateUser} />}
