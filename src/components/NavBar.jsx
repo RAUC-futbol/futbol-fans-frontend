@@ -1,6 +1,8 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
 
 export default function NavBar({ toggleShowSignUp, toggleShowLogin, user }) {
@@ -33,11 +35,14 @@ export default function NavBar({ toggleShowSignUp, toggleShowLogin, user }) {
           <Link to='/highlights' className='nav-link'>
             Highlights
           </Link>
-         
+          <Nav.Item>
+            <DropdownButton variant='info' title={user.username === 'username' ? 'Account' : user.username}>
+              <Dropdown.Item onClick={toggleShowLogin}>Login</Dropdown.Item>
+              <Dropdown.Item onClick={toggleShowSignUp}>Sign Up</Dropdown.Item>
+            </DropdownButton>
+          </Nav.Item>
         </Nav>
-        <Button onClick={toggleShowLogin}>Login</Button>
-        <Button onClick={toggleShowSignUp}>Sign Up</Button>
-        <Navbar.Text>User: {user.username}</Navbar.Text>
+
       </Navbar.Collapse>
     </Navbar>
   )
