@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 const TeamCard = ({ team }) => {
     return (
         <Container>
-        <Card style={{ width: '18rem' }}>
+        <Card style={{ width: '15rem' }}>
           <Card.Img variant="top" src={team.crest} alt={`${team.name} Crest`} />
           <Card.Body>
             <Card.Title>{team.name}</Card.Title>
