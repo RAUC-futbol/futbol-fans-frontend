@@ -15,6 +15,9 @@ export default function NavBar({ toggleShowSignUp, toggleShowLogin, user }) {
           <Link to='/' className='nav-link'>
             Home
           </Link>
+          <Link to='/dashboard' className='nav-link'>
+            Dashboard
+          </Link>
           <Link to='/matches' className='nav-link'>
             Matches
           </Link>
@@ -27,6 +30,10 @@ export default function NavBar({ toggleShowSignUp, toggleShowLogin, user }) {
           <Link to='/profile' className='nav-link'>
             Profile
           </Link>
+          <Link to='/highlights' className='nav-link'>
+            Highlights
+          </Link>
+         
         </Nav>
         <Button onClick={toggleShowLogin}>Login</Button>
         <Button onClick={toggleShowSignUp}>Sign Up</Button>
