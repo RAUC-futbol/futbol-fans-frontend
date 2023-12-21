@@ -13,10 +13,21 @@ import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Filters from './components/Filters';
 import leaguesDictionary from '../config/leagues';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
+
+  // user
+  const [user, setUser] = useState({});
+
+  function updateUser(userObj) {
+    setUser(userObj);
+  }
+
+  // standings API
   const [teamStandings, setTeamStandings] = useState([]);
   const [leagueStandings, setLeagueStandings] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState(
@@ -85,9 +96,26 @@ function App() {
     setSelectedTeam(event.target.value);
   }
 
+  // sign up and login modals show handlers
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  function toggleShowSignUp() {
+    setShowSignUp(showSignUp ? false : true)
+  }
+
+  function toggleShowLogin() {
+    setShowLogin(showLogin ? false : true)
+  }
+
   return (
     <BrowserRouter className='App'>
-      <NavBar />
+
+      <NavBar toggleShowSignUp={toggleShowSignUp} toggleShowLogin={toggleShowLogin} user={user} />
+
+      <Login show={showLogin} onHide={toggleShowLogin} updateUser={updateUser} />
+      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
+
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/matches' element={<Matches />} />
@@ -123,6 +151,7 @@ function App() {
           }
         />
       </Routes>
+
     </BrowserRouter>
   );
 }
