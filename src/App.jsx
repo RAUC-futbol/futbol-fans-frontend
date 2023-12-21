@@ -11,63 +11,175 @@ import Standings from './pages/Standings';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
-import Filters from './components/Filters';
+import leaguesDictionary from '../config/leagues';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
+import teamDictionary from '../config/teamDictionary';
+import Highlights from './pages/Highlights';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
-  const [standings, setStandings] = useState([]);
-  const [selectedLeague, setSelectedLeague] = useState('PL');
-  const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
+  // user
+  const [user, setUser] = useState({
+    username: 'username',
+    name: 'name',
+    favLeague: 2021,
+    favTeam: 57,
+  });
+
+  function updateUser(userObj) {
+    setUser(userObj);
+  }
+
+  const [teamInfo, setTeamInfo] = useState([]);
+  const [teamStandings, setTeamStandings] = useState([]);
+  const [leagueStandings, setLeagueStandings] = useState([]);
 
   useEffect(() => {
-    fetchStandings();
-  }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
+    fetchLeagueStandings();
+    fetchTeamStandings();
+  }, [user.favLeague, user.favTeam]);
 
-  async function fetchStandings() {
-    let dbURL = `${SERVER}/standings/team/${selectedLeague}/${selectedTeam}`;
+  useEffect(() => {
+    fetchTeamInfo();
+  }, [user.favTeam]);
+
+  async function fetchTeamStandings() {
+    const selectedLeagueCode = getLeagueCode(user.favLeague);
+    const selectedTeamName = getTeamName(user.favTeam);
+    // console.log({ selectedLeagueCode });
+    // console.log({ selectedTeamName });
+    const dbURL = `${SERVER}/standings/team/${selectedLeagueCode}/${selectedTeamName}`;
+    if (!selectedTeamName) {
+      console.error(
+        `Team name not found in teamDictionary with ID: ${user.favTeam}`
+      );
+      return;
+    }
 
     try {
-      console.log('url: ', dbURL);
+      // console.log('Team Standings url: ', dbURL);
       const leagueResponse = await axios.get(dbURL);
-      setStandings(leagueResponse.data);
-      console.log('Fetched standings: ', leagueResponse.data);
+      setTeamStandings(leagueResponse.data);
+      console.log('Fetched team standings: ', leagueResponse.data);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   }
 
-  function handleLeagueChange(event) {
-    setSelectedLeague(event.target.value);
+  async function fetchLeagueStandings() {
+    const selectedLeagueCode = getLeagueCode(user.favLeague);
+    // console.log('Selected League Code:', selectedLeagueCode);
+
+    if (!selectedLeagueCode) {
+      return;
+    }
+
+    const dbURL = `${SERVER}/standings/${selectedLeagueCode}`;
+
+    try {
+      // console.log('fetchStandings url: ', dbURL);
+      const response = await axios.get(dbURL);
+      setLeagueStandings(response.data);
+      console.log('Fetched league standings: ', response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
-  function handleTeamChange(event) {
-    setSelectedTeam(event.target.value);
+  function getLeagueCode(compId) {
+    // Use flatMap to flatten the array of league objects
+    const flattenedLeagues = leaguesDictionary.flatMap(Object.values);
+
+    const leagueEntry = flattenedLeagues.find(
+      (data) => data.compId === parseInt(compId, 10)
+    );
+
+    return leagueEntry ? leagueEntry.leagueCode : null;
+  }
+
+  function getTeamName(teamId) {
+    const teamEntry = teamDictionary.find((team) => team.id === teamId);
+    return teamEntry ? teamEntry.name : null;
+  }
+
+  async function fetchTeamInfo() {
+    try {
+      const teamId = user.favTeam;
+      let dbURL = `${SERVER}/teams/${teamId}`;
+
+      console.log('fetchTeams url: ', dbURL);
+      const response = await axios.get(dbURL);
+      console.log('Fetched team info: ', response.data);
+      setTeamInfo(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  // sign up and login modals show handlers
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  function toggleShowSignUp() {
+    setShowSignUp(showSignUp ? false : true);
+  }
+
+  function toggleShowLogin() {
+    setShowLogin(showLogin ? false : true);
   }
 
   return (
     <BrowserRouter className='App'>
-      <NavBar />
+      <NavBar
+        toggleShowSignUp={toggleShowSignUp}
+        toggleShowLogin={toggleShowLogin}
+        user={user}
+      />
+
+      <Login
+        show={showLogin}
+        onHide={toggleShowLogin}
+        updateUser={updateUser}
+      />
+      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
+
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/matches' element={<Matches />} />
+        <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
+        <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
         <Route
           path='/standings'
           element={
             <>
-             <Filters
-                selectedLeague={selectedLeague}
-                selectedTeam={selectedTeam}
-                handleLeagueChange={handleLeagueChange}
-                handleTeamChange={handleTeamChange}
+              <Standings
+                user={user}
+                teamStandings={teamStandings}
+                leagueStandings={leagueStandings}
               />
-              <Standings standings={standings} />
             </>
           }
         />
-        <Route path='/explore' element={<Explore />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route
+          path='/explore'
+          element={<Explore getTeamName={getTeamName} />}
+        />
+        <Route
+          path='/profile'
+          element={<Profile user={user} updateUser={updateUser} />}
+        />
+        <Route
+          path='/dashboard'
+          element={
+            <Dashboard
+              teamInfo={teamInfo}
+              selectedLeague={getLeagueCode(user.favLeague)}
+              teamStandings={teamStandings}
+              leagueStandings={leagueStandings}
+            />
+          }
+        />
+        <Route path='/highlights' element={<Highlights />} />
       </Routes>
     </BrowserRouter>
   );
