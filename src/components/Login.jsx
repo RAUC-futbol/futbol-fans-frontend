@@ -42,9 +42,12 @@ function Login({ show, onHide, updateUser }) {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
+
         <Modal.Title>Login - Fútbol Fans</Modal.Title>
+
       </Modal.Header>
       <Modal.Body>
+
         <Form onSubmit={handleSubmit}>
           <Stack gap={3}>
             <FloatingLabel label='username'>
@@ -53,6 +56,7 @@ function Login({ show, onHide, updateUser }) {
             <Button type='submit' variant='success'>Submit</Button>
           </Stack>
         </Form>
+
       </Modal.Body>
     </Modal>
   )
