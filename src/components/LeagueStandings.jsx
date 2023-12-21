@@ -1,4 +1,16 @@
-const LeagueStandings = ({ selectedLeague, leagueStandings }) => {
+import leaguesDictionary from "../../config/leagues";
+const LeagueStandings = ({
+  selectedLeague,
+  leagueStandings,
+}) => {
+  const leagueInfo = leaguesDictionary.find((league) => league[selectedLeague]);
+
+  const leagueName = leagueInfo
+    ? leagueInfo[selectedLeague].name
+    : selectedLeague;
+
+  const leagueImageUrl = leagueInfo ? leagueInfo[selectedLeague].emblem : '';
+
   const standings = leagueStandings
     .filter((item) => item.leagueCode === selectedLeague)
     .map((item) => item.team);
@@ -9,8 +21,13 @@ const LeagueStandings = ({ selectedLeague, leagueStandings }) => {
 
   return (
     <div>
-      <h2>{selectedLeague} Standings</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <h2>{leagueName} Standings</h2>
+        <img src={leagueImageUrl} alt={`${leagueName} emblem`} style={{ maxHeight: '10rem', marginLeft: '10px' }} />
+      </div>
+      <table
+        style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}
+      >
         <thead>
           <tr style={{ backgroundColor: '#f2f2f2' }}>
             <th style={tableHeaderStyle}>Position</th>
