@@ -21,7 +21,7 @@ function SignUp({ show, onHide, updateUser }) {
 
     try {
 
-      const response = await axios.post(url, userProfile);
+      await axios.post(url, userProfile);
 
       setUser(userProfile);
 

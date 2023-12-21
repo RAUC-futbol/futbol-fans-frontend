@@ -8,6 +8,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 // league and team data
 import leaguesDictionary from '../../config/leagues';
+import teamDictionary from '../../config/teamDictionary';
 
 function ProfileForm({ user, handleSubmit }) {
 
@@ -54,7 +55,7 @@ function ProfileForm({ user, handleSubmit }) {
         <FloatingLabel label='name'>
           <Form.Control id='name' onChange={handleChange} placeholder='name' value={name}></Form.Control>
         </FloatingLabel>
-        <InputGroup>
+        <InputGroup size='lg'>
           <InputGroup.Text>Favorite League</InputGroup.Text>
           <Form.Select id='favLeague' onChange={handleChange} value={favLeague}>
             {flattenedLeagues.map((league) =>
@@ -62,14 +63,18 @@ function ProfileForm({ user, handleSubmit }) {
             )}
           </Form.Select>
         </InputGroup>
-        <InputGroup>
+        <InputGroup size='lg'>
           <InputGroup.Text>Favorite Team</InputGroup.Text>
           <Form.Select id='favTeam' onChange={handleChange} value={favTeam}>
-            <option value='61'>Chelsea FC</option>
-            <option value='57'>Arsenal FC</option>
+            {teamDictionary
+              .filter((team) => team.runningCompetitions
+              .some((competition) => competition.id === parseInt(favLeague)))
+              .map((team) =>
+                <option key={team.id} value={team.id}>{team.name}</option>
+              )}
           </Form.Select>
         </InputGroup>
-        <Button type='submit' variant='success'>Update</Button>
+        <Button type='submit' variant='success'>Submit</Button>
       </Stack>
     </Form>
   )
