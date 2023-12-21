@@ -16,6 +16,7 @@ import leaguesDictionary from '../config/leagues';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import teamDictionary from '../config/teamDictionary';
+import Highlights from './pages/Highlights';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
@@ -164,6 +165,12 @@ function App() {
               leagueStandings={leagueStandings}
               selectedLeague={selectedLeague}
             />
+          }
+        />
+        <Route
+          path='/highlights'
+          element={
+            <Highlights />
           }
         />
       </Routes>
