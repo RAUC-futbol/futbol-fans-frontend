@@ -9,3 +9,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.site-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 5px solid black;
+  margin: 20px;
+}
