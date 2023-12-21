@@ -28,10 +28,10 @@ function App() {
     let dbURL = `${SERVER}/standings/team/${selectedLeague}/${selectedTeam}`;
 
     try {
-      console.log('url: ', dbURL);
+      //console.log('url: ', dbURL);
       const leagueResponse = await axios.get(dbURL);
       setStandings(leagueResponse.data);
-      console.log('Fetched standings: ', leagueResponse.data);
+      //console.log('Fetched standings: ', leagueResponse.data);
     } catch (error) {
       console.error(error);
     }
