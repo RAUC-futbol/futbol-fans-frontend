@@ -37,43 +37,6 @@ function App() {
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
   const [teamInfo, setTeamInfo] = useState([]);
 
-  // useEffect(() => {
-  //   // Call only fetchLeagueStandings when the component mounts
-  //   fetchLeagueStandings();
-  // }, [selectedLeague]);
-
-  // useEffect(() => {
-  //   fetchTeamStandings();
-  //   fetchLeagueStandings();
-  //   fetchTeamInfo();
-  // }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
-
-  // async function fetchTeamStandings() {
-  //   let dbURL = `${SERVER}/standings/team/${selectedLeague}/${selectedTeam}`;
-
-  //   try {
-  //     console.log('url: ', dbURL);
-  //     const leagueResponse = await axios.get(dbURL);
-  //     setTeamStandings(leagueResponse.data);
-  //     console.log('Fetched standings: ', leagueResponse.data);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // }
-
-  // async function fetchLeagueStandings() {
-  //   let dbURL = `${SERVER}/standings/${selectedLeague}`;
-
-  //   try {
-  //     console.log('fetchStandings url: ', dbURL);
-  //     const response = await axios.get(dbURL);
-  //     setLeagueStandings(response.data);
-  //     console.log('Fetched standings: ', response.data);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // }
-
   async function fetchTeamInfo() {
     try {
       const selectedTeamObject = teamDictionary.find(

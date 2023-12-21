@@ -18,7 +18,6 @@ export default function Standings({
   useEffect(() => {
     fetchLeagueStandings();
     fetchTeamStandings();
-    fetchLeagueStandings();
   }, [user.favLeague, user.favTeam]);
 
   console.log('user.favLeague:', user.favLeague);
