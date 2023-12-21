@@ -16,6 +16,7 @@ import leaguesDictionary from '../config/leagues';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import teamDictionary from '../config/teamDictionary';
+import Highlights from './pages/Highlights';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
@@ -36,42 +37,42 @@ function App() {
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
   const [teamInfo, setTeamInfo] = useState([]);
 
-  useEffect(() => {
-    // Call only fetchLeagueStandings when the component mounts
-    fetchLeagueStandings();
-  }, [selectedLeague]);
+  // useEffect(() => {
+  //   // Call only fetchLeagueStandings when the component mounts
+  //   fetchLeagueStandings();
+  // }, [selectedLeague]);
 
-  useEffect(() => {
-    fetchTeamStandings();
-    fetchLeagueStandings();
-    fetchTeamInfo();
-  }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
+  // useEffect(() => {
+  //   fetchTeamStandings();
+  //   fetchLeagueStandings();
+  //   fetchTeamInfo();
+  // }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
 
-  async function fetchTeamStandings() {
-    let dbURL = `${SERVER}/standings/team/${selectedLeague}/${selectedTeam}`;
+  // async function fetchTeamStandings() {
+  //   let dbURL = `${SERVER}/standings/team/${selectedLeague}/${selectedTeam}`;
 
-    try {
-      console.log('url: ', dbURL);
-      const leagueResponse = await axios.get(dbURL);
-      setTeamStandings(leagueResponse.data);
-      console.log('Fetched standings: ', leagueResponse.data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
+  //   try {
+  //     console.log('url: ', dbURL);
+  //     const leagueResponse = await axios.get(dbURL);
+  //     setTeamStandings(leagueResponse.data);
+  //     console.log('Fetched standings: ', leagueResponse.data);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // }
 
-  async function fetchLeagueStandings() {
-    let dbURL = `${SERVER}/standings/${selectedLeague}`;
+  // async function fetchLeagueStandings() {
+  //   let dbURL = `${SERVER}/standings/${selectedLeague}`;
 
-    try {
-      console.log('fetchStandings url: ', dbURL);
-      const response = await axios.get(dbURL);
-      setLeagueStandings(response.data);
-      console.log('Fetched standings: ', response.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+  //   try {
+  //     console.log('fetchStandings url: ', dbURL);
+  //     const response = await axios.get(dbURL);
+  //     setLeagueStandings(response.data);
+  //     console.log('Fetched standings: ', response.data);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // }
 
   async function fetchTeamInfo() {
     try {
@@ -133,8 +134,10 @@ function App() {
       <SignUp show={showSignUp} onHide={toggleShowSignUp} />
 
       <Routes>
-        <Route path='/' element={<Home />} />
+
         <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
+        <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
+
         <Route
           path='/standings'
           element={
@@ -149,6 +152,7 @@ function App() {
                 teamStandings={teamStandings}
                 leagueStandings={leagueStandings}
                 selectedLeague={selectedLeague}
+                user={user}
               />
             </>
           }
@@ -164,6 +168,12 @@ function App() {
               leagueStandings={leagueStandings}
               selectedLeague={selectedLeague}
             />
+          }
+        />
+        <Route
+          path='/highlights'
+          element={
+            <Highlights />
           }
         />
       </Routes>

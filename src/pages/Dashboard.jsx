@@ -26,7 +26,7 @@ export default function Dashboard({
           <LeagueStandings
             selectedLeague={selectedLeague}
             leagueStandings={leagueStandings}
-            // leaguesDictionary={leaguesDictionary}
+
           />
           
         </Col>

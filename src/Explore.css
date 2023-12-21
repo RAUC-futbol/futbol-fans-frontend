@@ -1,0 +1,15 @@
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #c8bfb5;
+    text-align: center;
+    padding-left: 50px;
+  }
+
+.listGroup {
+    background-color: rgb(75, 74, 74);
+    color: white;
+  }
+  
+  .returnDiv {
+    margin: auto;
+  }
