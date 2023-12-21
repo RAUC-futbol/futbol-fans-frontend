@@ -134,7 +134,7 @@ function App() {
       <SignUp show={showSignUp} onHide={toggleShowSignUp} />
 
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
         <Route path='/matches' element={<Matches />} />
         <Route
           path='/standings'
