@@ -1,71 +1,63 @@
-// react
-import { useState } from 'react';
 // dependencies
 import axios from 'axios';
 // bootstrap
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 // server API
 const SERVER = import.meta.env.VITE_API_URL;
+// components
+import ProfileForm from '../components/ProfileForm';
 
-function SignUp({ show, onHide }) {
+function SignUp({ show, onHide, updateUser }) {
 
-  const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
-
-  function handleChange(event) {
-    const formField = event.target.id;
-
-    if (formField === 'username') {
-      setUsername(event.target.value)
-    } else if (formField === 'name') {
-      setName(event.target.value)
-    }
+  const user = {
+    username: '',
+    name: '',
+    favLeague: 2021,
+    favTeam: 57
   }
 
-  function handleSubmit() {
-    addUser();
-    onHide();
-  }
-
-  async function addUser() {
+  async function addUser(userProfile) {
     const url = `${SERVER}/users/`;
-    const user = {
-      username: username,
-      name: name
-    }
 
     try {
 
-      const response = await axios.post(url, user);
+      await axios.post(url, userProfile);
+
+      setUser(userProfile);
 
     } catch (error) {
       console.error(error.message);
     }
   }
 
+  async function setUser(newUser) {
+    const url = `${SERVER}/users/${newUser.username}`;
+
+    try {
+
+      const response = await axios.get(url);
+
+      updateUser(response.data[0]);
+
+    } catch (error) {
+      console.error(error.message);
+    }
+
+    onHide();
+  }
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
+
         <Modal.Title>Sign Up - Fútbol Fans</Modal.Title>
+
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <InputGroup>
-            <InputGroup.Text>Username</InputGroup.Text>
-            <Form.Control id='username' onChange={handleChange}></Form.Control>
-          </InputGroup>
-          <InputGroup>
-            <InputGroup.Text>Name</InputGroup.Text>
-            <Form.Control id='name' onChange={handleChange}></Form.Control>
-          </InputGroup>
-        </Form>
+
+        <ProfileForm user={user} handleSubmit={addUser} />
+
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={handleSubmit}>Submit</Button>
-      </Modal.Footer>
     </Modal>
   )
 }

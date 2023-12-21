@@ -132,6 +132,7 @@ function App() {
 
   return (
     <BrowserRouter className='App'>
+      
       <NavBar
         toggleShowSignUp={toggleShowSignUp}
         toggleShowLogin={toggleShowLogin}
@@ -143,7 +144,12 @@ function App() {
         onHide={toggleShowLogin}
         updateUser={updateUser}
       />
-      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
+
+      <SignUp
+        show={showSignUp}
+        onHide={toggleShowSignUp}
+        updateUser={updateUser}
+      />
 
       <Routes>
         <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
