@@ -21,7 +21,7 @@ const SERVER = import.meta.env.VITE_API_URL;
 function App() {
 
   // user
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ username: 'username', name: 'name', favLeague: 2021, favTeam: 57 });
 
   function updateUser(userObj) {
     setUser(userObj);
@@ -138,7 +138,7 @@ function App() {
           }
         />
         <Route path='/explore' element={<Explore />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={<Profile user={user} updateUser={updateUser} />} />
         <Route
           path='/dashboard'
           element={
