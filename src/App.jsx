@@ -150,6 +150,7 @@ function App() {
                 teamStandings={teamStandings}
                 leagueStandings={leagueStandings}
                 selectedLeague={selectedLeague}
+                user={user}
               />
             </>
           }

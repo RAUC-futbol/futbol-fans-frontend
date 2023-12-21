@@ -9,10 +9,12 @@ export default function Standings({
   teamStandings,
   leagueStandings,
   selectedLeague,
+  user
 }) {
   return (
     <Container>
       <h1>Standings</h1>
+      <p>{JSON.stringify(user)}</p>
       <Row>
         {teamStandings.map((teamData) => (
           <Col key={teamData.team._id} xs={12} md={6}>
