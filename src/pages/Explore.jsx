@@ -39,8 +39,8 @@ export default function Explore() {
     const team = teams[0];
     const competition = team?.runningCompetitions[0]
     return (
-        <div>
-            <input onChange={updateQuery} />
+        <div className='returnDiv'>
+            <input style={{marginTop: '10px', marginBottom: '15px'}} onChange={updateQuery} />
             <button onClick={getTeam}>Explore Team!</button>
             {/* <p>{JSON.stringify(team)}</p> */}
             <Card style={{ width: '36rem'}}>
