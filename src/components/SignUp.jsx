@@ -8,11 +8,10 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import InputGroup from 'react-bootstrap/InputGroup';
 // server API
 const SERVER = import.meta.env.VITE_API_URL;
 
-function SignUp({ show, onHide }) {
+function SignUp({ show, onHide, updateUser }) {
 
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
@@ -43,6 +42,22 @@ function SignUp({ show, onHide }) {
     try {
 
       const response = await axios.post(url, user);
+
+      setUser(response);
+
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function setUser() {
+    const url = `${SERVER}/users/${username}`;
+
+    try {
+      
+      const response = await axios.get(url);
+
+      updateUser(response.data[0]);
 
     } catch (error) {
       console.error(error.message);
