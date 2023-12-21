@@ -30,7 +30,7 @@ function Login({ show, onHide, updateUser }) {
       
       const response = await axios.get(url);
 
-      updateUser(response.data);
+      updateUser(response.data[0]);
 
     } catch (error) {
       console.error(error.message);

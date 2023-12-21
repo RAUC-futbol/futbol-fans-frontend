@@ -15,13 +15,13 @@ import Filters from './components/Filters';
 import leaguesDictionary from '../config/leagues';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import teamDictionary from '../config/teamDictionary';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
-
   // user
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ username: 'username', name: 'name', favLeague: 2021, favTeam: 57 });
 
   function updateUser(userObj) {
     setUser(userObj);
@@ -74,13 +74,22 @@ function App() {
   }
 
   async function fetchTeamInfo() {
-    let teamId = 90;
-    let dbURL = `${SERVER}/teams/${teamId}`;
-
     try {
+      const selectedTeamObject = teamDictionary.find(
+        (team) => team.name === selectedTeam
+      );
+
+      if (!selectedTeamObject) {
+        console.error(`Team not found in teamDictionary: ${selectedTeam}`);
+        return;
+      }
+
+      // Extract the teamId from the selected team object
+      const teamId = selectedTeamObject.id;
+      let dbURL = `${SERVER}/teams/${teamId}`;
+
       console.log('fetchTeams url: ', dbURL);
       const response = await axios.get(dbURL);
-      // setSelectedTeam(response.data.name);
       console.log('Fetched team info: ', response.data);
       setTeamInfo(response.data);
     } catch (error) {
@@ -101,19 +110,26 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
 
   function toggleShowSignUp() {
-    setShowSignUp(showSignUp ? false : true)
+    setShowSignUp(showSignUp ? false : true);
   }
 
   function toggleShowLogin() {
-    setShowLogin(showLogin ? false : true)
+    setShowLogin(showLogin ? false : true);
   }
 
   return (
     <BrowserRouter className='App'>
+      <NavBar
+        toggleShowSignUp={toggleShowSignUp}
+        toggleShowLogin={toggleShowLogin}
+        user={user}
+      />
 
-      <NavBar toggleShowSignUp={toggleShowSignUp} toggleShowLogin={toggleShowLogin} user={user} />
-
-      <Login show={showLogin} onHide={toggleShowLogin} updateUser={updateUser} />
+      <Login
+        show={showLogin}
+        onHide={toggleShowLogin}
+        updateUser={updateUser}
+      />
       <SignUp show={showSignUp} onHide={toggleShowSignUp} />
 
       <Routes>
@@ -138,7 +154,7 @@ function App() {
           }
         />
         <Route path='/explore' element={<Explore />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={<Profile user={user} updateUser={updateUser} />} />
         <Route
           path='/dashboard'
           element={
@@ -151,7 +167,6 @@ function App() {
           }
         />
       </Routes>
-
     </BrowserRouter>
   );
 }
