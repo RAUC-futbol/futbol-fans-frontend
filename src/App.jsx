@@ -12,10 +12,9 @@ import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Filters from './components/Filters';
-
+import leaguesDictionary from '../config/leagues';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
-// import leaguesDictionary from '../config/leagues';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
@@ -31,8 +30,11 @@ function App() {
   // standings API
   const [teamStandings, setTeamStandings] = useState([]);
   const [leagueStandings, setLeagueStandings] = useState([]);
-  const [selectedLeague, setSelectedLeague] = useState('PL');
+  const [selectedLeague, setSelectedLeague] = useState(
+    leaguesDictionary[0].PL.leagueCode
+  );
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
+  const [teamInfo, setTeamInfo] = useState([]);
 
   useEffect(() => {
     // Call only fetchLeagueStandings when the component mounts
@@ -42,6 +44,7 @@ function App() {
   useEffect(() => {
     fetchTeamStandings();
     fetchLeagueStandings();
+    fetchTeamInfo();
   }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
 
   async function fetchTeamStandings() {
@@ -53,7 +56,7 @@ function App() {
       setTeamStandings(leagueResponse.data);
       console.log('Fetched standings: ', leagueResponse.data);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   }
 
@@ -66,7 +69,22 @@ function App() {
       setLeagueStandings(response.data);
       console.log('Fetched standings: ', response.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+    }
+  }
+
+  async function fetchTeamInfo() {
+    let teamId = 90;
+    let dbURL = `${SERVER}/teams/${teamId}`;
+
+    try {
+      console.log('fetchTeams url: ', dbURL);
+      const response = await axios.get(dbURL);
+      // setSelectedTeam(response.data.name);
+      console.log('Fetched team info: ', response.data);
+      setTeamInfo(response.data);
+    } catch (error) {
+      console.log(error.message);
     }
   }
 
@@ -121,7 +139,17 @@ function App() {
         />
         <Route path='/explore' element={<Explore />} />
         <Route path='/profile' element={<Profile user={user} updateUser={updateUser} />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route
+          path='/dashboard'
+          element={
+            <Dashboard
+              teamInfo={teamInfo}
+              teamStandings={teamStandings}
+              leagueStandings={leagueStandings}
+              selectedLeague={selectedLeague}
+            />
+          }
+        />
       </Routes>
 
     </BrowserRouter>
