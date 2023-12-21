@@ -12,16 +12,18 @@ import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Filters from './components/Filters';
-// import leaguesDictionary from '../config/leagues';
+import leaguesDictionary from '../config/leagues';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
   const [teamStandings, setTeamStandings] = useState([]);
   const [leagueStandings, setLeagueStandings] = useState([]);
-  const [selectedLeague, setSelectedLeague] = useState('PL');
+  const [selectedLeague, setSelectedLeague] = useState(leaguesDictionary[0].PL.leagueCode);
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
+  const [teamInfo, setTeamInfo] = useState([]);
 
+    
   useEffect(() => {
     // Call only fetchLeagueStandings when the component mounts
     fetchLeagueStandings();
@@ -30,6 +32,7 @@ function App() {
   useEffect(() => {
     fetchTeamStandings();
     fetchLeagueStandings();
+    fetchTeamInfo();
   }, [selectedLeague, selectedTeam]); // fetch standing when selected league changes or new team selected
 
   async function fetchTeamStandings() {
@@ -54,7 +57,23 @@ function App() {
       setLeagueStandings(response.data);
       console.log('Fetched standings: ', response.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+    }
+  }
+
+  async function fetchTeamInfo() {
+    let teamId = 90;
+    let dbURL = `${SERVER}/teams/${teamId}`;
+
+    try {
+      console.log('fetchTeams url: ', dbURL);
+      const response = await axios.get(dbURL);
+      setSelectedTeam(response.data.name);
+      console.log('Team Name: ', response.data.name)
+      setTeamInfo(response.data);
+      console.log('Fetched team info: ', response.data)
+    } catch (error) {
+      console.log(error.message);
     }
   }
 
@@ -81,6 +100,7 @@ function App() {
                 selectedTeam={selectedTeam}
                 handleLeagueChange={handleLeagueChange}
                 handleTeamChange={handleTeamChange}
+                leaguesDictionary={leaguesDictionary}
               />
               <Standings
                 teamStandings={teamStandings}
