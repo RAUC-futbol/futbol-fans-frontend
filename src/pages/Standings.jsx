@@ -3,12 +3,12 @@ import LeagueStandings from '../components/LeagueStandings';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import leaguesDictionary from '../../config/leagues';
 
 export default function Standings({
   teamStandings,
   leagueStandings,
   selectedLeague,
-  leaguesDictionary,
 }) {
   return (
     <Container>
