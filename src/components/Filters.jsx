@@ -20,8 +20,8 @@ function Filters({
         <option value='EC'>European Championship</option>
       </select>
       <select value={selectedTeam} onChange={handleTeamChange}>
-        <option value='Chelsea FC'>Chelsea FC</option>
-        <option value='Arsenal FC'>Arsenal FC</option>
+        <option value='61'>Chelsea FC</option>
+        <option value='57'>Arsenal FC</option>
       </select>
     </>
   );
