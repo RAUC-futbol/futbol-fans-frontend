@@ -4,8 +4,8 @@ function Filters({
   handleLeagueChange,
   handleTeamChange,
 }) {
-  console.log('Selected League:', selectedLeague);
-  console.log('Selected Team:', selectedTeam);
+  // console.log('Selected League:', selectedLeague);
+  // console.log('Selected Team:', selectedTeam);
   return (
     <>
       <select value={selectedLeague} onChange={handleLeagueChange}>

@@ -15,14 +15,19 @@ import Filters from './components/Filters';
 import leaguesDictionary from '../config/leagues';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
-import teamDictionary from '../config/teamDictionary';
+// import teamDictionary from '../config/teamDictionary';
 import Highlights from './pages/Highlights';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
   // user
-  const [user, setUser] = useState({ username: 'username', name: 'name', favLeague: 2021, favTeam: 57 });
+  const [user, setUser] = useState({
+    username: 'username',
+    name: 'name',
+    favLeague: 2021,
+    favTeam: 57,
+  });
 
   function updateUser(userObj) {
     setUser(userObj);
@@ -37,19 +42,36 @@ function App() {
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
   const [teamInfo, setTeamInfo] = useState([]);
 
+  useEffect(() => {
+    fetchTeamInfo();
+  }, [user.favTeam]);
+  // async function fetchTeamInfo() {
+  //   try {
+  //     const selectedTeamObject = teamDictionary.find(
+  //       (team) => team.name === selectedTeam
+  //     );
+
+  //     if (!selectedTeamObject) {
+  //       console.error(`Team not found in teamDictionary: ${selectedTeam}`);
+  //       return;
+  //     }
+
+  //     // Extract the teamId from the selected team object
+  //     const teamId = selectedTeamObject.id;
+  //     let dbURL = `${SERVER}/teams/${teamId}`;
+
+  //     console.log('fetchTeams url: ', dbURL);
+  //     const response = await axios.get(dbURL);
+  //     console.log('Fetched team info: ', response.data);
+  //     setTeamInfo(response.data);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // }
+
   async function fetchTeamInfo() {
     try {
-      const selectedTeamObject = teamDictionary.find(
-        (team) => team.name === selectedTeam
-      );
-
-      if (!selectedTeamObject) {
-        console.error(`Team not found in teamDictionary: ${selectedTeam}`);
-        return;
-      }
-
-      // Extract the teamId from the selected team object
-      const teamId = selectedTeamObject.id;
+      const teamId = user.favTeam;
       let dbURL = `${SERVER}/teams/${teamId}`;
 
       console.log('fetchTeams url: ', dbURL);
@@ -97,10 +119,12 @@ function App() {
       <SignUp show={showSignUp} onHide={toggleShowSignUp} />
 
       <Routes>
-        <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
-        <Route path='/matches' element={<Matches />} />
-        <Route path='/' element={<Home />} />
         <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
+        <Route
+          path='/'
+          element={<Home toggleShowSignUp={toggleShowSignUp} />}
+        />
+
         <Route
           path='/standings'
           element={
@@ -111,17 +135,15 @@ function App() {
                 handleLeagueChange={handleLeagueChange}
                 handleTeamChange={handleTeamChange}
               />
-              <Standings
-                teamStandings={teamStandings}
-                leagueStandings={leagueStandings}
-                selectedLeague={selectedLeague}
-                user={user}
-              />
+              <Standings user={user} />
             </>
           }
         />
         <Route path='/explore' element={<Explore />} />
-        <Route path='/profile' element={<Profile user={user} updateUser={updateUser} />} />
+        <Route
+          path='/profile'
+          element={<Profile user={user} updateUser={updateUser} />}
+        />
         <Route
           path='/dashboard'
           element={
@@ -133,12 +155,7 @@ function App() {
             />
           }
         />
-        <Route
-          path='/highlights'
-          element={
-            <Highlights />
-          }
-        />
+        <Route path='/highlights' element={<Highlights />} />
       </Routes>
     </BrowserRouter>
   );
