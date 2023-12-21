@@ -1,11 +1,17 @@
 function Filters({
-  selectedLeague,
-  selectedTeam,
-  handleLeagueChange,
-  handleTeamChange,
+
 }) {
-  console.log('Selected League:', selectedLeague);
-  console.log('Selected Team:', selectedTeam);
+  // console.log('Selected League:', selectedLeague);
+  // console.log('Selected Team:', selectedTeam);
+
+    function handleLeagueChange(event) {
+    setSelectedLeague(event.target.value);
+  }
+
+  function handleTeamChange(event) {
+    setSelectedTeam(event.target.value);
+  }
+
   return (
     <>
       <select value={selectedLeague} onChange={handleLeagueChange}>
