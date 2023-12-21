@@ -19,11 +19,12 @@ const SERVER = import.meta.env.VITE_API_URL;
 function App() {
   const [teamStandings, setTeamStandings] = useState([]);
   const [leagueStandings, setLeagueStandings] = useState([]);
-  const [selectedLeague, setSelectedLeague] = useState(leaguesDictionary[0].PL.leagueCode);
+  const [selectedLeague, setSelectedLeague] = useState(
+    leaguesDictionary[0].PL.leagueCode
+  );
   const [selectedTeam, setSelectedTeam] = useState('Chelsea FC');
   const [teamInfo, setTeamInfo] = useState([]);
 
-    
   useEffect(() => {
     // Call only fetchLeagueStandings when the component mounts
     fetchLeagueStandings();
@@ -44,7 +45,7 @@ function App() {
       setTeamStandings(leagueResponse.data);
       console.log('Fetched standings: ', leagueResponse.data);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   }
 
@@ -68,10 +69,9 @@ function App() {
     try {
       console.log('fetchTeams url: ', dbURL);
       const response = await axios.get(dbURL);
-      setSelectedTeam(response.data.name);
-      console.log('Team Name: ', response.data.name)
+      // setSelectedTeam(response.data.name);
+      console.log('Fetched team info: ', response.data);
       setTeamInfo(response.data);
-      console.log('Fetched team info: ', response.data)
     } catch (error) {
       console.log(error.message);
     }
@@ -100,7 +100,6 @@ function App() {
                 selectedTeam={selectedTeam}
                 handleLeagueChange={handleLeagueChange}
                 handleTeamChange={handleTeamChange}
-                leaguesDictionary={leaguesDictionary}
               />
               <Standings
                 teamStandings={teamStandings}
@@ -112,7 +111,17 @@ function App() {
         />
         <Route path='/explore' element={<Explore />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route
+          path='/dashboard'
+          element={
+            <Dashboard
+              teamInfo={teamInfo}
+              teamStandings={teamStandings}
+              leagueStandings={leagueStandings}
+              selectedLeague={selectedLeague}
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

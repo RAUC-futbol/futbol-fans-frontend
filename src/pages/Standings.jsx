@@ -14,7 +14,6 @@ export default function Standings({
     <Container>
       <h1>Standings</h1>
       <Row>
-        {/* TeamCard */}
         {teamStandings.map((teamData) => (
           <Col key={teamData.team._id} xs={12} md={6}>
             <TeamCard team={teamData.team} />
