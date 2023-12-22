@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 // bootstrap
 import Container from 'react-bootstrap/Container';
-import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Table from 'react-bootstrap/Table';
@@ -63,18 +63,25 @@ function Matches({ teamId }) {
   }
 
   return (
-    <Container>
+    <Container fluid>
+      <Row>
 
-      <TeamMatchesCard teamId={teamId} />
+        <Col xs={6} md={2} className='d-flex justify-content-center'>
+          <TeamMatchesCard teamId={teamId} />
+        </Col>
 
-      <Stack>
+        <Col xs={12} md={10} className='d-flex justify-content-center'>
+          <Stack gap={2}>
 
-        <MatchesForm filterMatches={filterMatchesData} updateMatches={getMatches} />
+            <MatchesForm filterMatches={filterMatchesData} updateMatches={getMatches} />
 
-        <MatchesTable matches={matchesToRender} />
+            <MatchesTable matches={matchesToRender} />
 
-      </Stack>
+          </Stack>
+        </Col>
 
+
+      </Row>
     </Container>
   )
 }
@@ -84,7 +91,7 @@ function MatchesTable({ matches }) {
 
 
   return (
-    <Table size='sm' striped>
+    <Table size='sm' striped responsive="md">
       <thead>
         <tr>
           <th>Status</th>
