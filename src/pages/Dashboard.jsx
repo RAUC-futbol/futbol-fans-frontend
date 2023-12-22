@@ -13,15 +13,15 @@ export default function Dashboard({
 }) {
   return (
     <Container>
-    <h1>Dashboard</h1>
+    <h1 className='title'>Dashboard</h1>
     <Row>
       {teamStandings.map((teamData) => (
         <Col key={teamData.team._id} xs={12} md={6}>
-           <div style={{ margin: '10px' }}>
-              <TeamCard team={teamData.team} />
-            </div>
             <div style={{ margin: '10px' }}>
               <TeamStats teamInfo={teamInfo} />
+            </div>
+           <div style={{ margin: '10px' }}>
+              <TeamCard team={teamData.team} />
             </div>
         </Col>
       ))}

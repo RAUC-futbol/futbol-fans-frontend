@@ -33,7 +33,7 @@ function Profile({ user, updateUser }) {
   return (
     <Container>
 
-      <h2>Profile</h2>
+      <h2 className='title'>Profile</h2>
 
       <ProfileForm user={currentUser} handleSubmit={updateUserProfile} />
 

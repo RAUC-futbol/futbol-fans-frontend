@@ -20,6 +20,7 @@ import teamDictionary from '../../config/teamDictionary';
 // components
 import TeamMatchesCard from '../components/TeamMatchesCard';
 
+
 function Matches({ user }) {
 
   const [allMatches, setAllMatches] = useState([]);
@@ -36,16 +37,22 @@ function Matches({ user }) {
     const url = `${SERVER}/matches/team/${team}`;
 
     try {
-
       const response = await axios.get(url, { params });
       const matchesResponse = response.data.matches;
 
       setPastMatches(matchesResponse.past);
       setFutureMatches(matchesResponse.future);
       setActiveMatches(matchesResponse.active);
-      setAllMatches([...matchesResponse.active, ...matchesResponse.past, ...matchesResponse.future]);
-      setMatchesToRender([...matchesResponse.active, ...matchesResponse.past, ...matchesResponse.future]);
-
+      setAllMatches([
+        ...matchesResponse.active,
+        ...matchesResponse.past,
+        ...matchesResponse.future,
+      ]);
+      setMatchesToRender([
+        ...matchesResponse.active,
+        ...matchesResponse.past,
+        ...matchesResponse.future,
+      ]);
     } catch (error) {
       console.error(error.message);
     }
@@ -64,6 +71,7 @@ function Matches({ user }) {
   }
 
   return (
+
     <Container fluid>
       <Row>
 
@@ -103,7 +111,7 @@ function MatchesTable({ matches }) {
         </tr>
       </thead>
       <tbody>
-        {matches.map((match) =>
+        {matches.map((match) => (
           <tr key={match.match.id}>
             <td>{match.match.status}</td>
             <td>{match.match.date}</td>
@@ -123,11 +131,12 @@ function MatchesTable({ matches }) {
             </td>
             <td>{match.result.awayScore}</td>
           </tr>
-        )}
+        ))}
       </tbody>
     </Table>
-  )
+  );
 }
+
 
 function MatchesForm({ filterMatches, updateMatches, user }) {
 
@@ -155,7 +164,7 @@ function MatchesForm({ filterMatches, updateMatches, user }) {
   }
 
   function filterStatus(event) {
-    filterMatches(event.target.value)
+    filterMatches(event.target.value);
   }
 
   function handleQueryChange(event) {
@@ -184,6 +193,7 @@ function MatchesForm({ filterMatches, updateMatches, user }) {
 
   return (
     <Form>
+
       <Stack gap={2}>
         <Row>
           <Col>
@@ -240,6 +250,7 @@ function MatchesForm({ filterMatches, updateMatches, user }) {
       </Stack>
     </Form >
   )
+
 }
 
 export default Matches;

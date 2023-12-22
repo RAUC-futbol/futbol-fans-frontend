@@ -21,16 +21,15 @@ export default function Standings({ user, teamStandings, leagueStandings }) {
 
 
   return (
+    <>
     <Container>
-      <h1>Standings</h1>
-      {/* <p>{JSON.stringify(user)}</p> */}
+    <h1 className='title'>Standings</h1>
       <Row>
         {teamStandings.map((teamData) => (
           <Col key={teamData.team._id} xs={12} md={6}>
             <TeamCard team={teamData.team} />
           </Col>
         ))}
-        {/* LeagueStandings */}
         <Col xs={12} md={6}>
           <LeagueStandings
             selectedLeague={getLeagueCode(user.favLeague)}
@@ -39,5 +38,6 @@ export default function Standings({ user, teamStandings, leagueStandings }) {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
