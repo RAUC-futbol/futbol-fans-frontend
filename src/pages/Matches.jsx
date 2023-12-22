@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 // dependencies
 import axios from 'axios';
 // bootstrap
+import Container from 'react-bootstrap/Container';
 import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -12,6 +13,8 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 // server API
 const SERVER = import.meta.env.VITE_API_URL;
+// components
+import TeamMatchesCard from '../components/TeamMatchesCard';
 
 function Matches({ teamId }) {
 
@@ -23,7 +26,7 @@ function Matches({ teamId }) {
   const [matchesToRender, setMatchesToRender] = useState([]);
 
   useEffect(() => {
-    getMatches();
+    // getMatches();
   }, []);
 
   async function getMatches(params) {
@@ -60,13 +63,19 @@ function Matches({ teamId }) {
   }
 
   return (
-    <Stack>
+    <Container>
 
-      <MatchesForm filterMatches={filterMatchesData} updateMatches={getMatches} />
+      <TeamMatchesCard teamId={teamId} />
 
-      <MatchesTable matches={matchesToRender} />
+      <Stack>
 
-    </Stack>
+        <MatchesForm filterMatches={filterMatchesData} updateMatches={getMatches} />
+
+        <MatchesTable matches={matchesToRender} />
+
+      </Stack>
+
+    </Container>
   )
 }
 
