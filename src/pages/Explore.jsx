@@ -155,9 +155,6 @@ export default function Explore({ getLeagueCode }) {
                 Address: {team?.address}
               </ListGroup.Item>
               <ListGroup.Item className='listGroup'>
-                TLA: {team?.tla}
-              </ListGroup.Item>
-              <ListGroup.Item className='listGroup'>
                 Competition Name: {competition?.name}
               </ListGroup.Item>
               <ListGroup.Item className='listGroup'>
