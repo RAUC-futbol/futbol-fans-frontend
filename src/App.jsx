@@ -178,7 +178,7 @@ function App() {
               selectedLeague={getLeagueCode(user.favLeague)}
               teamStandings={teamStandings}
               leagueStandings={leagueStandings}
-              user={user}
+              teamId={user.favTeam}
             />
           }
         />
