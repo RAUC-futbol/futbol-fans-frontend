@@ -16,7 +16,7 @@ function TeamMatchesCard({ teamId }) {
   const [match, setMatch] = useState();
 
   useEffect(() => {
-    // getMatches();
+    getMatches();
   }, []);
 
   async function getMatches() {

@@ -18,7 +18,6 @@ import TeamMatchesCard from '../components/TeamMatchesCard';
 
 function Matches({ teamId }) {
 
-  const [results, setResults] = useState({});
   const [allMatches, setAllMatches] = useState([]);
   const [pastMatches, setPastMatches] = useState([]);
   const [futureMatches, setFutureMatches] = useState([]);
@@ -26,7 +25,7 @@ function Matches({ teamId }) {
   const [matchesToRender, setMatchesToRender] = useState([]);
 
   useEffect(() => {
-    // getMatches();
+    getMatches();
   }, []);
 
   async function getMatches(params) {
@@ -35,10 +34,8 @@ function Matches({ teamId }) {
     try {
 
       const response = await axios.get(url, { params });
-      const resultsResponse = response.data.results;
       const matchesResponse = response.data.matches;
 
-      setResults(resultsResponse);
       setPastMatches(matchesResponse.past);
       setFutureMatches(matchesResponse.future);
       setActiveMatches(matchesResponse.active);
@@ -91,7 +88,7 @@ function MatchesTable({ matches }) {
 
 
   return (
-    <Table size='sm' striped responsive="md">
+    <Table size='sm' striped>
       <thead>
         <tr>
           <th>Status</th>
@@ -159,7 +156,7 @@ function MatchesForm({ filterMatches, updateMatches }) {
     <Form>
       <Row>
         <Col>
-          <InputGroup size='sm'>
+          <InputGroup>
             <InputGroup.Text>Status</InputGroup.Text>
             <Form.Select onChange={filterStatus}>
               <option value="all">All</option>
@@ -170,7 +167,7 @@ function MatchesForm({ filterMatches, updateMatches }) {
           </InputGroup>
         </Col>
         <Col>
-          <InputGroup size='sm'>
+          <InputGroup>
             <InputGroup.Text>Season</InputGroup.Text>
             <Form.Select id='season' onChange={handleQueryChange}>
               <option value="2023">2023</option>
