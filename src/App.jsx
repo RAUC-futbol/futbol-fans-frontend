@@ -75,6 +75,7 @@ function App() {
     }
 
     const dbURL = `${SERVER}/standings/${selectedLeagueCode}`;
+    console.log({dbURL})
 
     try {
       // console.log('fetchStandings url: ', dbURL);
@@ -150,7 +151,7 @@ function App() {
       />
 
       <Routes>
-        <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
+        <Route path='/matches' element={<Matches user={user} />} />
         <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
         <Route
           path='/standings'
@@ -164,7 +165,7 @@ function App() {
             </>
           }
         />
-        <Route path='/explore' element={<Explore />} />
+        <Route path='/explore' element={<Explore getLeagueCode={getLeagueCode}/>} />
         <Route
           path='/profile'
           element={<Profile user={user} updateUser={updateUser} />}
@@ -177,6 +178,7 @@ function App() {
               selectedLeague={getLeagueCode(user.favLeague)}
               teamStandings={teamStandings}
               leagueStandings={leagueStandings}
+              teamId={user.favTeam}
             />
           }
         />
