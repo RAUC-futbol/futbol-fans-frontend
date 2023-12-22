@@ -6,6 +6,9 @@ const LeagueStandings = ({
 }) => {
   const leagueInfo = leaguesDictionary.find((league) => league[selectedLeague]);
 
+  console.log('Selected League:', selectedLeague);
+  console.log('League Standings:', leagueStandings);
+
   const leagueName = leagueInfo
     ? leagueInfo[selectedLeague].name
     : selectedLeague;

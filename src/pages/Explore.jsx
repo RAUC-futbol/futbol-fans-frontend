@@ -6,17 +6,18 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import LeagueStandings from '../components/LeagueStandings';
 
 const SERVER = import.meta.env.VITE_API_URL;
 
-export default function ExploreTest() {
+export default function Explore({ getLeagueCode }) {
   const [teams, setTeams] = useState('');
   const [teamName, setTeamName] = useState('');
   const [favLeague, setFavLeague] = useState('');
+  const [leagueStandings, setLeagueStandings] = useState([]);
+  const [leagueCode, setLeagueCode] = useState([]);
 
   const flattenedLeagues = leaguesDictionary.flatMap(Object.values);
 
@@ -40,6 +41,28 @@ export default function ExploreTest() {
     }
   }
 
+  async function fetchLeagueStandings() {
+    const selectedLeagueCode = getLeagueCode(favLeague);
+    console.log('Selected League Code:', selectedLeagueCode);
+
+    if (!selectedLeagueCode) {
+      return;
+    }
+
+    const dbURL = `${SERVER}/standings/${selectedLeagueCode}`;
+    console.log({dbURL})
+
+    try {
+      console.log('fetchStandings url: ', dbURL);
+      const response = await axios.get(dbURL);
+      setLeagueStandings(response.data);
+      setLeagueCode(selectedLeagueCode);
+      console.log('Fetched league standings: ', response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   function getTeamId(teamName) {
     const lowerCaseTeamName = teamName.toLowerCase();
     const teamEntry = teamDictionary.find((team) =>
@@ -54,11 +77,18 @@ export default function ExploreTest() {
 
   function updateLeagueQuery(event) {
     setFavLeague(event.target.value);
+    console.log(favLeague);
   }
 
   function handleTeamSubmit(event) {
     event.preventDefault();
     getTeam();
+  }
+
+  function handleLeagueSubmit(event) {
+    event.preventDefault();
+    console.log(favLeague)
+    fetchLeagueStandings();
   }
 
   const team = teams[0];
@@ -67,7 +97,10 @@ export default function ExploreTest() {
     <Container>
       <h1 className='title'>Explore</h1>
       <div className='returnDiv d-flex justify-content-center align-items-center'>
-        <Form onSubmit={handleTeamSubmit} className='d-flex flex-column align-items-center'>
+        <Form
+          onSubmit={handleTeamSubmit}
+          className='d-flex flex-column align-items-center'
+        >
           <input
             style={{ marginTop: '10px', marginBottom: '15px' }}
             onChange={updateTeamQuery}
@@ -76,30 +109,25 @@ export default function ExploreTest() {
             Explore Team!
           </Button>
         </Form>
-        <Form onSubmit={handleTeamSubmit}>
-      <Stack gap={3}>
-        <InputGroup size='lg'>
-          <InputGroup.Text>Favorite League</InputGroup.Text>
-          <Form.Select id='favLeague' value={favLeague} onChange={updateLeagueQuery}>
-            {flattenedLeagues.map((league) =>
-              <option key={league.compId} value={league.compId}>{league.name}</option>
-            )}
-          </Form.Select>
-        </InputGroup>
-        <InputGroup size='lg'>
-          <InputGroup.Text>Favorite Team</InputGroup.Text>
-          <Form.Select id='favTeam' value={teamName} onChange={updateTeamQuery}>
-            {teamDictionary
-              .filter((team) => team.runningCompetitions
-              .some((competition) => competition.id === parseInt(favLeague)))
-              .map((team) =>
-                <option key={team.id} value={team.id}>{team.name}</option>
-              )}
-          </Form.Select>
-        </InputGroup>
-        <Button type='submit' variant='success'>Submit</Button>
-      </Stack>
-    </Form>
+        <Form onSubmit={handleLeagueSubmit}>
+          <InputGroup size='lg'>
+            <InputGroup.Text>Explore Leagues</InputGroup.Text>
+            <Form.Select
+              id='favLeague'
+              onChange={updateLeagueQuery}
+              value={favLeague}
+            >
+              {flattenedLeagues.map((league) => (
+                <option key={league.compId} value={league.compId}>
+                  {league.name}
+                </option>
+              ))}
+            </Form.Select>
+          </InputGroup>
+          <Button type='submit' variant='info' style={{ margin: '10px' }}>
+            Explore Leagues!
+          </Button>
+        </Form>
 
         {team && (
           <Card style={{ width: '36rem' }} className='mx-auto'>
@@ -155,6 +183,7 @@ export default function ExploreTest() {
           </Card>
         )}
       </div>
+      <LeagueStandings selectedLeague={leagueCode} leagueStandings={leagueStandings}/>
     </Container>
   );
 }

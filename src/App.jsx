@@ -75,6 +75,7 @@ function App() {
     }
 
     const dbURL = `${SERVER}/standings/${selectedLeagueCode}`;
+    console.log({dbURL})
 
     try {
       // console.log('fetchStandings url: ', dbURL);
@@ -164,7 +165,7 @@ function App() {
             </>
           }
         />
-        <Route path='/explore' element={<Explore />} />
+        <Route path='/explore' element={<Explore getLeagueCode={getLeagueCode}/>} />
         <Route
           path='/profile'
           element={<Profile user={user} updateUser={updateUser} />}
