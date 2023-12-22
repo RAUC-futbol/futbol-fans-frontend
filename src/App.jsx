@@ -48,8 +48,6 @@ function App() {
   async function fetchTeamStandings() {
     const selectedLeagueCode = getLeagueCode(user.favLeague);
     const selectedTeamName = getTeamName(user.favTeam);
-    // console.log({ selectedLeagueCode });
-    // console.log({ selectedTeamName });
     const dbURL = `${SERVER}/standings/team/${selectedLeagueCode}/${selectedTeamName}`;
     if (!selectedTeamName) {
       console.error(
@@ -132,6 +130,7 @@ function App() {
 
   return (
     <BrowserRouter className='App'>
+      
       <NavBar
         toggleShowSignUp={toggleShowSignUp}
         toggleShowLogin={toggleShowLogin}
@@ -143,7 +142,12 @@ function App() {
         onHide={toggleShowLogin}
         updateUser={updateUser}
       />
-      <SignUp show={showSignUp} onHide={toggleShowSignUp} />
+
+      <SignUp
+        show={showSignUp}
+        onHide={toggleShowSignUp}
+        updateUser={updateUser}
+      />
 
       <Routes>
         <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
@@ -160,10 +164,7 @@ function App() {
             </>
           }
         />
-        <Route
-          path='/explore'
-          element={<Explore getTeamName={getTeamName} />}
-        />
+        <Route path='/explore' element={<Explore />} />
         <Route
           path='/profile'
           element={<Profile user={user} updateUser={updateUser} />}
