@@ -66,14 +66,14 @@ function TeamMatchesCard({ teamId }) {
           <ListGroup.Item>Away: {match.awayTeam.name}</ListGroup.Item>
           <ListGroup.Item>{match.match.date} Matchday: {match.match.matchday}</ListGroup.Item>
           <ListGroup.Item>
-          <Image src={match.competition.emblem} alt='competition league emblem' style={{ width: '3rem', paddingRight: '0.5rem' }} />
+            <Image src={match.competition.emblem} alt='competition league emblem' style={{ width: '3rem', paddingRight: '0.5rem' }} />
             {match.competition.name}
-            </ListGroup.Item>
+          </ListGroup.Item>
         </ListGroup>
       </Card.Body>
 
       <Card.Footer>
-        
+
       </Card.Footer>
 
       <Card.Img variant='bottom' src={match.awayTeam.crest} alt={match.awayTeam.name} />

@@ -150,7 +150,7 @@ function App() {
       />
 
       <Routes>
-        <Route path='/matches' element={<Matches teamId={user.favTeam} />} />
+        <Route path='/matches' element={<Matches user={user} />} />
         <Route path='/' element={<Home toggleShowSignUp={toggleShowSignUp} />} />
         <Route
           path='/standings'
