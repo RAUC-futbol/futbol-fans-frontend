@@ -77,15 +77,12 @@ function Matches({ teamId }) {
           </Stack>
         </Col>
 
-
       </Row>
     </Container>
   )
 }
 
 function MatchesTable({ matches }) {
-
-
 
   return (
     <Table size='sm' striped>
@@ -149,7 +146,6 @@ function MatchesForm({ filterMatches, updateMatches }) {
 
     updateMatches(queryParams)
 
-    console.log({ queryParams });
   }
 
   return (
