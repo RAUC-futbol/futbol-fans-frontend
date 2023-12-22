@@ -1,4 +1,5 @@
 import leaguesDictionary from "../../config/leagues";
+
 const LeagueStandings = ({
   selectedLeague,
   leagueStandings,

@@ -13,24 +13,27 @@ export default function Dashboard({
 }) {
   return (
     <Container>
-      <h1>Dashboard</h1>
-      <Row>
-        {teamStandings.map((teamData) => (
-          <Col key={teamData.team._id} xs={12} md={6}>
-            <TeamCard team={teamData.team} />
-          </Col>
-        ))}
-        {/* LeagueStandings */}
-        <Col xs={12} md={6}>
-        <TeamStats teamInfo={teamInfo}/>
-          <LeagueStandings
-            selectedLeague={selectedLeague}
-            leagueStandings={leagueStandings}
-
-          />
-          
+    <h1>Dashboard</h1>
+    <Row>
+      {teamStandings.map((teamData) => (
+        <Col key={teamData.team._id} xs={12} md={6}>
+           <div style={{ margin: '10px' }}>
+              <TeamCard team={teamData.team} />
+            </div>
+            <div style={{ margin: '10px' }}>
+              <TeamStats teamInfo={teamInfo} />
+            </div>
         </Col>
-      </Row>
-      </Container>
+      ))}
+      <Col xs={6} md={6}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5px' }}>
+            <LeagueStandings
+              selectedLeague={selectedLeague}
+              leagueStandings={leagueStandings}
+            />
+          </div>
+        </Col>
+    </Row>
+  </Container>
   );
 }
