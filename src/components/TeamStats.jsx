@@ -24,7 +24,21 @@ export default function TeamStats({ teamInfo }) {
             Founded: {teamStats.founded} <br />
             Address: {teamStats.address} <br />
             Coach: {teamStats.coach.name} <br />
-      
+            {teamStats.runningCompetitions && (
+              <div className="running-competitions">
+                <strong className='card-title'>Competitions:</strong>
+                {teamStats.runningCompetitions.map((competition) => (
+                  <div key={competition.id} className="competition-item">
+                    <img
+                      src={competition.emblem}
+                      alt={`${competition.name} Emblem`}
+                      className="competition-emblem"
+                    />
+                    <span className="competition-name">{competition.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </Card.Text>
         </Card.Body>
       </Card>
