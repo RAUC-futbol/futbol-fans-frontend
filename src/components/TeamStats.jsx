@@ -19,8 +19,8 @@ export default function TeamStats({ teamInfo }) {
           alt={`${teamStats.name} Crest`}
         />
         <Card.Body>
-          <Card.Title>{teamStats.name}</Card.Title>
-          <Card.Text>
+          <Card.Title className='card-title'>{teamStats.name}</Card.Title>
+          <Card.Text className='card-text'>
             Founded: {teamStats.founded} <br />
             Address: {teamStats.address} <br />
             Coach: {teamStats.coach.name} <br />

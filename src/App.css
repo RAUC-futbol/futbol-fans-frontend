@@ -20,7 +20,7 @@ body {
   color: #1f7a3a;
 }
 
-.nav-link { 
+.nav-link {
   font-family: 'Montserrat', 'Roboto', Verdana;
 }
 
@@ -30,7 +30,20 @@ body {
 }
 
 .content {
-  font-family: 'Montserrat', 'Roboto', Verdana, Arial, Helvetica; 
+  font-family: 'Montserrat', 'Roboto', Verdana, Arial, Helvetica;
+}
+
+.card-title {
+  font-family: 'Montserrat';
+  font-weight: 600;
+}
+
+.card-text {
+  font-family: 'Roboto';
+}
+
+.listGroup {
+  font-family: 'Roboto';
 }
 
 .App {
@@ -44,7 +57,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
 
 .highlight-video-container {
   margin-bottom: 20px; /* Add margin for better spacing between videos */

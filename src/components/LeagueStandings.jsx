@@ -23,7 +23,7 @@ const LeagueStandings = ({
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h2>{leagueName} Standings</h2>
+        <h2 className="content">{leagueName} Standings</h2>
         <img src={leagueImageUrl} alt={`${leagueName} emblem`} style={{ maxHeight: '10rem', marginLeft: '10px' }} />
       </div>
       <table
@@ -48,7 +48,6 @@ const LeagueStandings = ({
               <td style={tableCellStyle}>{team.won}</td>
               <td style={tableCellStyle}>{team.draw}</td>
               <td style={tableCellStyle}>{team.lost}</td>
-              {/* Add other relevant columns */}
             </tr>
           ))}
         </tbody>
@@ -61,11 +60,13 @@ const tableHeaderStyle = {
   padding: '12px',
   textAlign: 'left',
   borderBottom: '1px solid #ddd',
+  fontFamily: 'Montserrat',
 };
 
 const tableCellStyle = {
   padding: '12px',
   textAlign: 'left',
+  fontFamily: 'Roboto',
 };
 
 export default LeagueStandings;
