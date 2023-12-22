@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 // server API
 const SERVER = import.meta.env.VITE_API_URL;
 // components
@@ -85,11 +86,12 @@ function Matches({ teamId }) {
 function MatchesTable({ matches }) {
 
   return (
-    <Table size='sm' striped>
+    <Table size='sm' striped hover>
       <thead>
         <tr>
           <th>Status</th>
           <th>Date</th>
+          <th>Competition</th>
           <th>Matchday</th>
           <th>Home</th>
           <th>Score</th>
@@ -102,10 +104,20 @@ function MatchesTable({ matches }) {
           <tr key={match.match.id}>
             <td>{match.match.status}</td>
             <td>{match.match.date}</td>
+            <td>
+            <Image src={match.competition.emblem} alt='competition league emblem' style={{ width: '2rem' }} thumbnail />
+              {match.competition.name}
+              </td>
             <td>{match.match.matchday}</td>
-            <td>{match.homeTeam.name}</td>
+            <td>
+              <Image src={match.homeTeam.crest} alt='team crest' style={{ width: '2rem' }} thumbnail />
+              {match.homeTeam.name}
+            </td>
             <td>{match.result.homeScore}</td>
-            <td>{match.awayTeam.name}</td>
+            <td>
+              <Image src={match.awayTeam.crest} alt='team crest' style={{ width: '2rem' }} thumbnail />
+              {match.awayTeam.name}
+            </td>
             <td>{match.result.awayScore}</td>
           </tr>
         )}

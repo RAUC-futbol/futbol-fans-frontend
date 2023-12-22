@@ -6,6 +6,7 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Nav from 'react-bootstrap/Nav';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Image from 'react-bootstrap/Image';
 // server API
 const SERVER = import.meta.env.VITE_API_URL;
 
@@ -57,17 +58,22 @@ function TeamMatchesCard({ teamId }) {
       </Card.Header>
 
       <Card.Body>
-        <ListGroup variant="flush">
+        <ListGroup>
           <ListGroup.Item>Home: {match.homeTeam.name}</ListGroup.Item>
           <ListGroup.Item>
             {match.homeTeam.tla} : {match.result.homeScore} | {match.awayTeam.tla} : {match.result.awayScore}
           </ListGroup.Item>
           <ListGroup.Item>Away: {match.awayTeam.name}</ListGroup.Item>
+          <ListGroup.Item>{match.match.date} Matchday: {match.match.matchday}</ListGroup.Item>
+          <ListGroup.Item>
+          <Image src={match.competition.emblem} alt='competition league emblem' style={{ width: '3rem', paddingRight: '0.5rem' }} />
+            {match.competition.name}
+            </ListGroup.Item>
         </ListGroup>
       </Card.Body>
 
       <Card.Footer>
-        {match.match.date}
+        
       </Card.Footer>
 
       <Card.Img variant='bottom' src={match.awayTeam.crest} alt={match.awayTeam.name} />
