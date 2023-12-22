@@ -47,6 +47,7 @@ export default function ExploreTest() {
   const competition = team?.runningCompetitions[0];
   return (
     <Container>
+      <h1 className='title'>Explore</h1>
     <div className='returnDiv'>
       {/* Wrap the input and button in a form */}
       <form onSubmit={(event) => { event.preventDefault(); getTeam(); }}>

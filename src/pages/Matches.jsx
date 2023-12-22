@@ -14,7 +14,6 @@ import Button from 'react-bootstrap/Button';
 const SERVER = import.meta.env.VITE_API_URL;
 
 function Matches({ teamId }) {
-
   const [results, setResults] = useState({});
   const [allMatches, setAllMatches] = useState([]);
   const [pastMatches, setPastMatches] = useState([]);
@@ -30,7 +29,6 @@ function Matches({ teamId }) {
     const url = `${SERVER}/matches/team/${teamId}`;
 
     try {
-
       const response = await axios.get(url, { params });
       const resultsResponse = response.data.results;
       const matchesResponse = response.data.matches;
@@ -39,9 +37,16 @@ function Matches({ teamId }) {
       setPastMatches(matchesResponse.past);
       setFutureMatches(matchesResponse.future);
       setActiveMatches(matchesResponse.active);
-      setAllMatches([...matchesResponse.active, ...matchesResponse.past, ...matchesResponse.future]);
-      setMatchesToRender([...matchesResponse.active, ...matchesResponse.past, ...matchesResponse.future]);
-
+      setAllMatches([
+        ...matchesResponse.active,
+        ...matchesResponse.past,
+        ...matchesResponse.future,
+      ]);
+      setMatchesToRender([
+        ...matchesResponse.active,
+        ...matchesResponse.past,
+        ...matchesResponse.future,
+      ]);
     } catch (error) {
       console.error(error.message);
     }
@@ -60,20 +65,21 @@ function Matches({ teamId }) {
   }
 
   return (
-    <Stack>
+    <>
+      <h1 className='title'>Matches</h1>
+      <Stack>
+        <MatchesForm
+          filterMatches={filterMatchesData}
+          updateMatches={getMatches}
+        />
 
-      <MatchesForm filterMatches={filterMatchesData} updateMatches={getMatches} />
-
-      <MatchesTable matches={matchesToRender} />
-
-    </Stack>
-  )
+        <MatchesTable matches={matchesToRender} />
+      </Stack>
+    </>
+  );
 }
 
 function MatchesTable({ matches }) {
-
-
-
   return (
     <Table size='sm' striped>
       <thead>
@@ -88,7 +94,7 @@ function MatchesTable({ matches }) {
         </tr>
       </thead>
       <tbody>
-        {matches.map((match) =>
+        {matches.map((match) => (
           <tr key={match.match.id}>
             <td>{match.match.status}</td>
             <td>{match.match.date}</td>
@@ -98,20 +104,19 @@ function MatchesTable({ matches }) {
             <td>{match.awayTeam.name}</td>
             <td>{match.result.awayScore}</td>
           </tr>
-        )}
+        ))}
       </tbody>
     </Table>
-  )
+  );
 }
 
 function MatchesForm({ filterMatches, updateMatches }) {
-
   const [season, setSeason] = useState();
   const [dateFrom, setDateFrom] = useState();
   const [dateTo, setDateTo] = useState();
 
   function filterStatus(event) {
-    filterMatches(event.target.value)
+    filterMatches(event.target.value);
   }
 
   function handleQueryChange(event) {
@@ -131,10 +136,10 @@ function MatchesForm({ filterMatches, updateMatches }) {
     const queryParams = {
       season: season,
       dateFrom: dateFrom,
-      dateTo: dateTo
-    }
+      dateTo: dateTo,
+    };
 
-    updateMatches(queryParams)
+    updateMatches(queryParams);
 
     console.log({ queryParams });
   }
@@ -146,10 +151,10 @@ function MatchesForm({ filterMatches, updateMatches }) {
           <InputGroup size='sm'>
             <InputGroup.Text>Status</InputGroup.Text>
             <Form.Select onChange={filterStatus}>
-              <option value="all">All</option>
-              <option value="past">Finished</option>
-              <option value="future">Scheduled</option>
-              <option value="active">In Play</option>
+              <option value='all'>All</option>
+              <option value='past'>Finished</option>
+              <option value='future'>Scheduled</option>
+              <option value='active'>In Play</option>
             </Form.Select>
           </InputGroup>
         </Col>
@@ -157,21 +162,29 @@ function MatchesForm({ filterMatches, updateMatches }) {
           <InputGroup size='sm'>
             <InputGroup.Text>Season</InputGroup.Text>
             <Form.Select id='season' onChange={handleQueryChange}>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="2021">2021</option>
-              <option value="2020">2020</option>
+              <option value='2023'>2023</option>
+              <option value='2022'>2022</option>
+              <option value='2021'>2021</option>
+              <option value='2020'>2020</option>
             </Form.Select>
             <InputGroup.Text>From</InputGroup.Text>
-            <Form.Control id='dateFrom' type='date' onChange={handleQueryChange}></Form.Control>
+            <Form.Control
+              id='dateFrom'
+              type='date'
+              onChange={handleQueryChange}
+            ></Form.Control>
             <InputGroup.Text>To</InputGroup.Text>
-            <Form.Control id='dateTo' type='date' onChange={handleQueryChange}></Form.Control>
+            <Form.Control
+              id='dateTo'
+              type='date'
+              onChange={handleQueryChange}
+            ></Form.Control>
             <Button onClick={queryMatches}>Update</Button>
           </InputGroup>
         </Col>
       </Row>
     </Form>
-  )
+  );
 }
 
 export default Matches;

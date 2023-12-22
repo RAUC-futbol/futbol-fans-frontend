@@ -1,3 +1,38 @@
+body {
+  font-family: 'Montserrat', 'Roboto', Verdana, Arial, Helvetica, sans-serif;
+  background-color: #c8bfb5;
+  text-align: center;
+  padding-left: 50px;
+}
+
+.title {
+  font-family: 'Bangers', 'WixMadeforDisplay';
+  color: #410246;
+}
+
+.navbar-brand {
+  font-family: 'Bangers', Verdana, Geneva, Tahoma, sans-serif;
+  color: #410246;
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  color: #1f7a3a;
+}
+
+.nav-link { 
+  font-family: 'Montserrat', 'Roboto', Verdana;
+}
+
+.nav-link:hover {
+  color: #410246;
+  font-weight: 600;
+}
+
+.content {
+  font-family: 'Montserrat', 'Roboto', Verdana, Arial, Helvetica; 
+}
+
 .App {
   background-color: whitesmoke;
   height: 100vh;

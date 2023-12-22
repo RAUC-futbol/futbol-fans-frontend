@@ -26,7 +26,7 @@ const HighlightsComponent = () => {
 
   return (
     <Container>
-     <h1>Video Highlights</h1>
+     <h1 className='title'>Video Highlights</h1>
       <Row>
         {highlights.map((highlight) => (
           <Col key={highlight.idEvent} xs={12} md={6} lg={4}>
