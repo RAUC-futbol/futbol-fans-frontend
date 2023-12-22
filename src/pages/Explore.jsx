@@ -23,19 +23,19 @@ export default function Explore({ getLeagueCode }) {
 
   async function getTeam() {
     const teamId = getTeamId(teamName);
-    console.log(teamId);
+    // console.log(teamId);
 
     if (!teamId) {
       console.error(`Team name not found in teamDictionary: ${teamName}`);
       return;
     }
     let dbURL = `${SERVER}/teams/${teamId}`;
-    console.log({ dbURL });
+    // console.log({ dbURL });
     try {
       const response = await axios.get(dbURL);
       const teamData = response.data;
       setTeams(teamData);
-      console.log(teamData);
+      // console.log(teamData);
     } catch (error) {
       console.error(error);
     }
@@ -43,14 +43,14 @@ export default function Explore({ getLeagueCode }) {
 
   async function fetchLeagueStandings() {
     const selectedLeagueCode = getLeagueCode(favLeague);
-    console.log('Selected League Code:', selectedLeagueCode);
+    // console.log('Selected League Code:', selectedLeagueCode);
 
     if (!selectedLeagueCode) {
       return;
     }
 
     const dbURL = `${SERVER}/standings/${selectedLeagueCode}`;
-    console.log({dbURL})
+    // console.log({dbURL})
 
     try {
       console.log('fetchStandings url: ', dbURL);
@@ -77,7 +77,7 @@ export default function Explore({ getLeagueCode }) {
 
   function updateLeagueQuery(event) {
     setFavLeague(event.target.value);
-    console.log(favLeague);
+    // console.log(favLeague);
   }
 
   function handleTeamSubmit(event) {
@@ -87,7 +87,7 @@ export default function Explore({ getLeagueCode }) {
 
   function handleLeagueSubmit(event) {
     event.preventDefault();
-    console.log(favLeague)
+    // console.log(favLeague)
     fetchLeagueStandings();
   }
 
@@ -96,10 +96,10 @@ export default function Explore({ getLeagueCode }) {
   return (
     <Container>
       <h1 className='title'>Explore</h1>
-      <div className='returnDiv d-flex justify-content-center align-items-center'>
+      <div className='forms-section d-flex flex-column align-items-center'>
         <Form
           onSubmit={handleTeamSubmit}
-          className='d-flex flex-column align-items-center'
+          className='mb-3'
         >
           <input
             style={{ marginTop: '10px', marginBottom: '15px' }}

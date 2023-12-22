@@ -17,11 +17,11 @@ export default function Dashboard({
     <Row>
       {teamStandings.map((teamData) => (
         <Col key={teamData.team._id} xs={12} md={6}>
-           <div style={{ margin: '10px' }}>
-              <TeamCard team={teamData.team} />
-            </div>
             <div style={{ margin: '10px' }}>
               <TeamStats teamInfo={teamInfo} />
+            </div>
+           <div style={{ margin: '10px' }}>
+              <TeamCard team={teamData.team} />
             </div>
         </Col>
       ))}

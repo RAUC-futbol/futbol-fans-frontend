@@ -30,7 +30,6 @@ export default function Standings({ user, teamStandings, leagueStandings }) {
             <TeamCard team={teamData.team} />
           </Col>
         ))}
-        {/* LeagueStandings */}
         <Col xs={12} md={6}>
           <LeagueStandings
             selectedLeague={getLeagueCode(user.favLeague)}
