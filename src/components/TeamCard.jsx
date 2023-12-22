@@ -7,7 +7,7 @@ const TeamCard = ({ team }) => {
         <Card style={{ width: '15rem' }}>
           <Card.Img variant="top" src={team.crest} alt={`${team.name} Crest`} />
           <Card.Body>
-            <Card.Title>{team.name}</Card.Title>
+            <Card.Title className='card-title'>{team.name}</Card.Title>
             <Card.Text>
               Position: {team.position} <br />
               Played Games: {team.playedGames} <br />
