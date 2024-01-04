@@ -16,10 +16,16 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import teamDictionary from '../config/teamDictionary';
 import Highlights from './pages/Highlights';
+import { useAuth0 } from '@auth0/auth0-react'
+import AuthButtons from './Auth/AuthButtons'
 
 const SERVER = import.meta.env.VITE_API_URL;
 
 function App() {
+
+  // replace custom user with Auth0 user
+  // const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
   // user
   const [user, setUser] = useState({
     username: 'username',
@@ -44,6 +50,19 @@ function App() {
   useEffect(() => {
     fetchTeamInfo();
   }, [user.favTeam]);
+
+  async function authRequest(url, method = 'GET') {
+    const accessTokenSilently = await getAccessTokenSilently();
+
+    const config = {
+      headers: { "Authorization": `Bearer ${accessTokenSilently}` },
+      baseURL: import.meta.env.VITE_SERVER_URL,
+      url,
+      method,
+    };
+
+    return await axios(config);
+  }
 
   async function fetchTeamStandings() {
     const selectedLeagueCode = getLeagueCode(user.favLeague);
@@ -137,6 +156,8 @@ function App() {
         toggleShowLogin={toggleShowLogin}
         user={user}
       />
+
+      <AuthButtons />
 
       <Login
         show={showLogin}
